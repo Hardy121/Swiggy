@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { MdStars } from "react-icons/md";
-
+import { FiSearch } from "react-icons/fi"
+import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { FaArrowRight, FaArrowLeft } from "react-icons/fa";
+import { IoIosStar } from "react-icons/io";
+
 
 const RestaurantMenu = () => {
+
 
   const { id } = useParams()
   let mainId = (id.split('-').at(-1))
@@ -14,7 +18,10 @@ const RestaurantMenu = () => {
   const [resInfo, setresInfo] = useState([])
   const [menuData, setmenuData] = useState([])
   const [discountData, setdiscountData] = useState([])
+  const [topPicks, settopPicks] = useState(null)
+  // const [currentidx, setcurrentidx] = useState(0)
 
+  // console.log(menuData)
 
   async function fetchmenu() {
     let data = await fetch(`https://www.swiggy.com/dapi/menu/pl?page-type=REGULAR_MENU&complete-menu=true&lat=21.18880&lng=72.82930&restaurantId=${mainId}&catalog_qa=undefined&submitAction=ENTER`);
@@ -22,7 +29,14 @@ const RestaurantMenu = () => {
     // console.log(res?.data?.cards[4]?.groupedCard?.cardGroupMap?.REGULAR?.cards[1]?.card?.card)
     setresInfo(res?.data?.cards[2]?.card?.card?.info)
     setdiscountData(res?.data?.cards[3]?.card?.card?.gridElements?.infoWithStyle?.offers)
-    setmenuData(res?.data?.cards[4]?.groupedCard?.cardGroupMap?.REGULAR?.cards[1]?.card?.card)
+    // console.log(res?.data?.cards[4]?.groupedCard?.cardGroupMap?.REGULAR)
+    let actualMenu = (res?.data?.cards[4]?.groupedCard?.cardGroupMap?.REGULAR?.cards).filter
+      (data => data?.card?.card?.itemCards || data?.card?.card?.categories)
+    // console.log(actualMenu);
+    setmenuData(actualMenu)
+    // settopPicks()
+
+    settopPicks((res?.data?.cards[4]?.groupedCard?.cardGroupMap?.REGULAR?.cards).filter((data) => data.card.card.title == "Top Picks")[0])
   }
 
   useEffect(() => {
@@ -40,18 +54,28 @@ const RestaurantMenu = () => {
     value <= 0 ? "" : setvalue((prev) => prev - 31)
   }
 
+  // function toggleFunc(i){
+  //  setcurrentidx(i === currentidx   ?  null : i )
+
+  // }
+
 
   return (
-    <div className='w-full'>
+    <div className='w-full relative top-20'>
 
-      <div className="mx-auto w-[800px]">
+
+      <div className="mx-auto w-[750px]">
         <p className='py-8 text-[12px]  text-slate-500 cursor-pointer'><Link to='/'> <span className='hover:text-slate-900 '>Home  </span></Link> / <Link to='/'> <span className='hover:text-slate-900 '>{resInfo?.city}</span> </Link>   / <span className='text-slate-700'>{resInfo?.name}</span></p>
-        <h1 className='font-bold p-5 text-2xl'>{resInfo.name}</h1>
+        <h1 className='font-bold pl-3 text-2xl'>{resInfo.name}</h1>
 
 
 
 
         <div className='w-full h-[206px]  bg-gradient-to-t from-[#DCDCE4]/70 mt-3 px-4 pb-4 rounded-[40px]'>
+
+          {/*              restaurant details start from  here                 */}
+
+
           <div className='w-full border border-[#DCDCE4]/70 h-full rounded-[30px] bg-white'>
             <div className=' p-4'>
               <div className='flex items-center gap-1 font-bold'>
@@ -88,6 +112,11 @@ const RestaurantMenu = () => {
             </div>
           </div>
 
+          {/*              restaurant details ends here                 */}
+
+
+          {/*             Deals for you start from here                 */}
+
           <div className='w-full'>
             <div className='flex justify-between mt-8'>
               <h1 className='text-xl font-bold'>Deals  for you</h1>
@@ -101,14 +130,83 @@ const RestaurantMenu = () => {
               </div>
             </div>
 
+            <div className='flex overflow-hidden gap-4 mt-4 '>
+              {
+
+                discountData.map((data) => (
+
+                  <Discount data={data} />
+                ))
+
+              }
+            </div>
+
+            {/*             Deals for you End from here                 */}
+
+
+
+
+            <div className="text-center mt-5 font-semibold text-gray-500 text-sm">
+              M E N U
+            </div>
+
+            <div className="w-full cursor-pointer relative bg-[#F2F2F3] p-4 rounded-xl text-lg text-gray-500 font-semibold  text-center mt-5">
+              Search for fishes
+              < FiSearch className='absolute top-5 right-5 text-2xl z-1' />
+            </div>
+
+
+            {/*             Top picks  start from here                 */}
+
             {
+              topPicks &&
+              <div className='w-full overflow-hidden'>
+                <div className='flex justify-between mt-8'>
+                  <h1 className='text-xl font-bold'>{topPicks.card.card.title}</h1>
+                  <div className='flex gap-2 '>
+                    <div onClick={handlePrev} className={`cursor-pointer rounded-full w-9 h-9 flex justify-center items-center bg-gray-200 ` + (value <= 0 ? "bg-gray-100" : "text-gray-200")}>
+                      <FaArrowLeft className={value <= 0 ? " text-gray-300" : "text-gray-800"} />
+                    </div>
+                    <div onClick={handleNext} className={`cursor-pointer rounded-full w-9 h-9 flex justify-center items-center bg-gray-200 ` + (value >= 124 ? "bg-gray-100" : "text-gray-200")}>
+                      <FaArrowRight className={value >= 124 ? " text-gray-300" : "text-gray-800"} />
+                    </div>
+                  </div>
+                </div>
+                <div className='flex overflow-hidden gap-4 mt-4 '>
+                  {
 
-              discountData.map((data) => (
+                    topPicks.card.card.carousel.map(({ creativeId, dish: { info: { defaultPrice, price } } }) => (
+                      <div className=' relative min-w-[254px] h-[264px]'>
+                        <img className='w-full h-full ' src={"https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_292,h_300/" + creativeId} alt="" />
+                        <div className='absolute bottom-0 text-white flex justify-between w-full p-3'>
+                          <p>₹{defaultPrice / 100 || price / 100}</p>
+                          <button className='bg-white cursor-pointer text-lg border px-9  rounded-lg  text-[#1ba672] font-bold hover:bg-[#D9DADB]'>ADD</button>
+                        </div>
+                      </div>
+                      // <Discount data={data} /> 
+                    ))
 
-                <Discount />
-              ))
+                  }
+                </div>
 
+              </div>
             }
+            {/*             Top picks  end from here                 */}
+
+
+
+
+            {/*             recomanded and other menus start from here                */}
+
+
+
+            <div className='mt-5'>
+              {menuData.map(({ card: { card } }) => (
+                <Menucard card={card} />))}
+            </div>
+
+
+
 
           </div>
 
@@ -119,12 +217,145 @@ const RestaurantMenu = () => {
   )
 }
 
-function Discount() {
-  return (
+function Menucard({ card }) {
 
-    <div>to is fredddd</div>
+  let hello = false;
+  if (card["@type"]) {
+    hello = true
+  }
+
+  const [IsOpen, setIsOpen] = useState(hello)
+
+  function toggleDrop() {
+    setIsOpen((prev) => !prev)
+  }
+
+  if (card.itemCards) {
+    const { title, itemCards } = card
+    return (
+      <>
+        <div>
+          <div className='flex justify-between mt-4'>
+            <h1 className={'font-bold text-' + (card["@type"] ? 'xl' : 'base')}>{title} ({itemCards.length})</h1>
+            {
+              IsOpen && <IoIosArrowUp className='cursor-pointer text-xl' onClick={toggleDrop} /> || <IoIosArrowDown className='cursor-pointer text-xl' onClick={toggleDrop} />
+            }
+          </div>
+          {
+            IsOpen && <DetailMenu itemCards={itemCards} />
+          }
+
+        </div>
+
+        <hr className={'mt-5 border-[#F2F2F3] border-' + (card["@type"] ? '[8px]' : '[4px]')} />
+      </>
+    )
+
+  }
+  else {
+    const { title, categories } = card;
+    return (
+      <div>
+        <h1 className='text-xl font-semibold mt-3'>{title}</h1>
+        {
+          categories.map(data => (
+            <div className=''>
+              <Menucard card={data} />
+            </div>
+          ))
+        }
+      </div>
+
+    )
+
+  }
+}
+function DetailMenu({ itemCards }) {
+  return (
+    <div>
+      {
+        itemCards.map(({ card: { info } }) => (
+          <DetailMenuCard info={info} />
+        ))
+      }
+    </div>
+  )
+}
+
+
+function DetailMenuCard({ info: { name,
+  defaultPrice,
+  price,
+  itemAttribute: { vegClassifier },
+  offerTags,
+  ratings: { aggregatedRating: { ratingCountV2, rating } },
+  description = " ",
+  imageId
+} }) {
+
+  const [ismore, setismore] = useState(false)
+  let trimdis = description.substring(0, 130) + "..."
+
+  let veg = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQh71sfIQVPk_TuhnuWB0Q1E6FlciHqRH-wRA&s";
+  let noneveg = "https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Non_veg_symbol.svg/768px-Non_veg_symbol.svg.png"
+  return (
+    <div className='my-5'>
+      <>
+        <div className='flex items-center justify-between mt-5 w-full min-h-[182px]' >
+          <div className='w-[70%]'>
+            <img className='w-5 rounded-sm' src={(vegClassifier === "VEG" ? veg : noneveg)} alt="" />
+            <h1 className='text-lg font-semibold'>{name}</h1>
+            <p className='text-lg font-semibold'>₹{defaultPrice / 100 || price / 100}</p>
+            <p className='flex items-center gap-1'><IoIosStar className='text-green-700' /><span className='text-green-600'>{rating}({ratingCountV2})</span> </p>
+            {
+              description.length > 130 ?
+                <div>
+                  <span className=''>{ismore ? description : trimdis}</span>
+                  <button className='font-semibold text-gray-400' onClick={() => { setismore(!ismore) }}>{ismore ? "less" : "more"}</button>
+
+                </div>
+                :
+                <span className=''>{description}</span>
+
+
+            }
+          </div>
+
+          <div className='w-[20%] relative h-full'>
+            <img className='rounded-xl' src={"https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_300,h_300,c_fit/" + imageId} alt="" />
+            <button className='bg-white cursor-pointer text-lg border px-9 absolute -bottom-5 left-3  py-1 rounded-lg  text-[#1ba672] font-bold hover:bg-[#D9DADB]'>ADD</button>
+          </div>
+        </div>
+        <hr className='mt-5' />
+      </>
+
+
+    </div>
+  )
+}
+
+
+function Discount({ data: { info: { header, offerLogo, couponCode } } }) {
+  // console.log(data)
+  return (
+    <>
+
+      <div className='flex  p-3 border rounded-xl min-w-[328px] h-[76px]   '>
+        <div className='flex gap-2 '>
+
+          <img className='' src={`https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_96,h_96/${offerLogo}`} alt="" />
+
+          <div>
+            <div className='font-bold text-md'>{header}</div>
+            <div className='font-semibold text-md text-gray-400'>{couponCode}</div>
+          </div>
+        </div>
+      </div>
+    </>
 
   )
 }
+
+
 
 export default RestaurantMenu

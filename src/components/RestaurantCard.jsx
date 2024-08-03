@@ -3,7 +3,7 @@ import { MdStars } from "react-icons/md";
 import { Link } from 'react-router-dom';
 
 const RestaurantCard = (info) => {
-    console.log(info)
+    // console.log(info)
     return (
         <Link to={`/restaurant-menu/${info.link.split('/')[4]}`}>
             <div className='min-w-[295px] h-[182px] cursor-pointer duration-1000 relative overflow-hidden rounded-xl '>

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { FaArrowRight, FaArrowLeft } from "react-icons/fa";
 import { MdStars } from "react-icons/md";
 import RestaurantCard from './RestaurantCard';
-const TopRestaurant = ({ data }) => {
+const TopRestaurant = ({ data = []}) => {
     // const [data, setData] = useState([])
     const [value, setvalue] = useState(0)
     // async function fetchData() {

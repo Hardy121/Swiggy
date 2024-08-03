@@ -1,10 +1,12 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Head from './components/Head'
 import Body from './components/Body'
 import { Route, Routes } from 'react-router-dom'
 import RestaurantMenu from './components/RestaurantMenu'
 
 const App = () => {
+
+
   return (
     <>
       <Routes>

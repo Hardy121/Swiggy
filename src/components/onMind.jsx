@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react'
 import { FaArrowRight, FaArrowLeft } from "react-icons/fa";
 
-const OnMind = ({data}) => {
+const OnMind = ({data = []}) => {
 
 
     // const [data, setData] = useState([])
@@ -29,7 +29,7 @@ const OnMind = ({data}) => {
     return (
         <>
 
-            <div className='flex justify-between mt-4'>
+            <div className='flex justify-between relative mt-24'>
                 <h1 className='text-2xl font-bold'>What's on your mind ?</h1>
                 <div className='flex gap-2 '>
                     <div onClick={handlePrev} className={`cursor-pointer rounded-full w-9 h-9 flex justify-center items-center bg-gray-200 ` + (value <= 0 ? "bg-gray-100" : "text-gray-200")}>
@@ -43,7 +43,7 @@ const OnMind = ({data}) => {
             <div style={{ translate: `-${value}%` }} className={`mt-4 flex gap-1 duration-500 `}>
                 {
                     data.map((item) => (
-                        <img key={item.id} className='w-40' src={`https://media-assets.swiggy.com/swiggy/image/upload/${item.imageId}`} alt=""  />
+                        <img key={item.id} className='w-40' src={`https://media-assets.swiggy.com/swiggy/image/upload/${item?.imageId}`} alt=""  />
                     ))
                 }
                 

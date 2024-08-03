@@ -39,36 +39,39 @@ const Head = () => {
     ]
     return (
         <>
-            <div className="w-full shadow-md flex justify-center items-center   " >
-                <div className='h-fit w-[70%] flex justify-between lg:flex-col '>
+            
+
+                <div className="w-full shadow-md flex justify-center items-center fixed bg-white z-50  top-0" >
+                    <div className='h-fit w-[70%] flex justify-between lg:flex-col '>
 
 
-                    <div className='flex items-center'>
-                        <Link to={'/'}>
-                        <img src={logo} alt="" className='w-24 ' />
-                        </Link>
-                        <div className='flex  items-end gap-1'>
-                            <p className="font-bold border-b-2 border-black "> other</p>
-                            <div> <IoIosArrowDown className='text-xl text-orange-500' /> </div>
+                        <div className='flex items-center'>
+                            <Link to={'/'}>
+                                <img src={logo} alt="" className='w-24 ' />
+                            </Link>
+                            <div className='flex  items-end gap-1'>
+                                <p className="font-bold border-b-2 border-black "> other</p>
+                                <div> <IoIosArrowDown className='text-xl text-orange-500' /> </div>
+                            </div>
+                        </div>
+
+                        <div className='flex items-center gap-6 lg:flex-wrap'>
+                            {
+                                navItem.map((data, index) => (
+                                    <div key={index} className='flex gap-1 items-center  text-gray-700 hover:text-orange-500 cursor-pointer'>
+                                        <div >{data.image}</div>
+                                        <p className='text-md font-semibold  '>{data.name}</p>
+                                    </div>
+
+                                ))
+                            }
+
                         </div>
                     </div>
 
-                    <div className='flex items-center gap-6 lg:flex-wrap'>
-                        {
-                            navItem.map((data,index) => (
-                                <div key={index}  className='flex gap-1 items-center  text-gray-700 hover:text-orange-500 cursor-pointer'>
-                                    <div >{data.image}</div>
-                                    <p className='text-md font-semibold  '>{data.name}</p>
-                                </div>
-
-                            ))
-                        }
-
-                    </div>
                 </div>
-
-            </div>
-        <Outlet/>
+            
+            <Outlet />
         </>
     )
 }

@@ -8,7 +8,7 @@ import { BiSolidOffer } from "react-icons/bi";
 import { IoCartSharp } from "react-icons/io5";
 import { IoMdLogIn } from "react-icons/io";
 import { Link, Outlet } from 'react-router-dom';
-import { Coordinate, Visibility } from '../context/ContextAPI';
+import { CartContaxt, Coordinate, Visibility } from '../context/ContextAPI';
 import { IoClose } from "react-icons/io5";
 import { IoLocationOutline } from "react-icons/io5";
 
@@ -16,27 +16,38 @@ const Head = () => {
     const navItem = [
         {
             name: "Swiggy Corporate",
-            image: <PiHandbag />
+            image: <PiHandbag />,
+            path: "/corporate"
         },
         {
             name: "Search",
-            image: <FiSearch />
+            image: <FiSearch />,
+            path: "/search"
+
         },
         {
             name: "Offers",
-            image: <BiSolidOffer />
+            image: <BiSolidOffer />,
+            path: "/offers"
+
         },
         {
             name: "Help",
-            image: <IoIosHelpBuoy />
+            image: <IoIosHelpBuoy />,
+            path: "/help"
+
         },
         {
             name: "Sign in",
-            image: <IoMdLogIn />
+            image: <IoMdLogIn />,
+            path: "/sign in"
+
         },
         {
             name: "Cart",
-            image: <IoCartSharp />
+            image: <IoCartSharp />,
+            path: "/cart"
+
         }
 
     ]
@@ -64,6 +75,7 @@ const Head = () => {
     }
 
     const { coord, setcoord } = useContext(Coordinate)
+    const { cartData, setcartData } = useContext(CartContaxt)
     const [adress, setadress] = useState("")
 
 
@@ -79,8 +91,8 @@ const Head = () => {
         setadress(data.data[0].formatted_address)
         handlevisiblity()
 
-
     }
+
 
     return (
         <>
@@ -103,13 +115,14 @@ const Head = () => {
                                             searchresult.map((data, index) => {
                                                 const isLast = (index === searchresult.length - 1)
                                                 return (
-                                                    <div className='flex items-center   gap-4' >
-
+                                                    <div key={index} className='flex items-center   gap-4'  >
                                                         <div className='text-lg'><IoLocationOutline /></div>
                                                         <li className='cursor-pointer my-2 w-full ' onClick={() => fetchLatandLon(data.place_id)}>
                                                             {data.structured_formatting.main_text}
                                                             <p className='text-sm opacity-65'>{data.structured_formatting.secondary_text}</p>
-                                                             { !isLast && <p className='border border-dashed mt-2 border-black/50 w-full '></p>}                                                        </li>
+                                                            {!isLast && <p className='border border-dashed mt-2 border-black/50 w-full '></p>}
+
+                                                        </li>
                                                     </div>
                                                 )
                                             })
@@ -145,10 +158,15 @@ const Head = () => {
                         <div className='flex items-center gap-6 lg:flex-wrap'>
                             {
                                 navItem.map((data, index) => (
-                                    <div key={index} className='flex gap-1 items-center  text-gray-700 hover:text-orange-500 cursor-pointer'>
-                                        <div >{data.image}</div>
-                                        <p className='text-md font-semibold  '>{data.name}</p>
-                                    </div>
+                                    <Link to={data.path}>
+                                        <div key={index} className='flex gap-1 items-center  text-gray-700 hover:text-orange-500 cursor-pointer'>
+                                            <div >{data.image}</div>
+                                            <p className='text-md font-semibold  '>{data.name}</p>
+                                            {data.name === "Cart" &&
+                                                <p>{cartData.length}</p>}
+
+                                        </div>
+                                    </Link>
 
                                 ))
                             }

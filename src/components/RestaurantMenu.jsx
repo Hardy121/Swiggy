@@ -5,7 +5,7 @@ import { FiSearch } from "react-icons/fi"
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { FaArrowRight, FaArrowLeft } from "react-icons/fa";
 import { IoIosStar } from "react-icons/io";
-import { Coordinate } from '../context/ContextAPI';
+import { CartContaxt, Coordinate } from '../context/ContextAPI';
 
 
 const RestaurantMenu = () => {
@@ -286,15 +286,33 @@ function DetailMenu({ itemCards }) {
 }
 
 
-function DetailMenuCard({ info: { name,
-  defaultPrice,
-  price,
-  itemAttribute: { vegClassifier },
-  offerTags,
-  ratings: { aggregatedRating: { ratingCountV2, rating } },
-  description = " ",
-  imageId
-} }) {
+function DetailMenuCard({ info}) {
+
+  const {
+       name,
+      defaultPrice,
+      price,
+      itemAttribute: { vegClassifier },
+      offerTags,
+      ratings: { aggregatedRating: { ratingCountV2, rating } },
+      description = " ",
+      imageId
+    } = info
+
+    const {cartData ,  setcartData} = useContext(CartContaxt)
+  
+  function handleAddToCart(){
+
+    const isadded = cartData.find((data) => data.id === info.id)
+    if(!isadded){
+      setcartData((prev) => [...prev , info ] ) // items add thashe ane previous items remove ny thay 
+      localStorage.setItem("cartData" , JSON.stringify([...cartData , info ]))
+    }
+    else{
+      alert("item is already in cart")
+    }
+    // console.log(info)
+  }
 
   const [ismore, setismore] = useState(false)
   let trimdis = description.substring(0, 130) + "..."
@@ -302,6 +320,7 @@ function DetailMenuCard({ info: { name,
   let veg = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQh71sfIQVPk_TuhnuWB0Q1E6FlciHqRH-wRA&s";
   let noneveg = "https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Non_veg_symbol.svg/768px-Non_veg_symbol.svg.png"
   return (
+
     <div className='my-5'>
       <>
         <div className='flex items-center justify-between mt-5 w-full min-h-[182px]' >
@@ -326,7 +345,7 @@ function DetailMenuCard({ info: { name,
 
           <div className='w-[20%] relative h-full'>
             <img className='rounded-xl' src={"https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_300,h_300,c_fit/" + imageId} alt="" />
-            <button className='bg-white cursor-pointer text-lg border px-9 absolute -bottom-5 left-3  py-1 rounded-lg  text-[#1ba672] font-bold hover:bg-[#D9DADB]'>ADD</button>
+            <button onClick={handleAddToCart} className='bg-white cursor-pointer text-lg border px-9 absolute -bottom-5 left-3  py-1 rounded-lg  text-[#1ba672] font-bold hover:bg-[#D9DADB]'>ADD</button>
           </div>
         </div>
         <hr className='mt-5' />

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { FaArrowRight, FaArrowLeft } from "react-icons/fa";
 import { MdStars } from "react-icons/md";
 import RestaurantCard from './RestaurantCard';
-const TopRestaurant = ({ data = []}) => {
+const TopRestaurant = ({ data  , TopResTitle}) => {
     // const [data, setData] = useState([])
     const [value, setvalue] = useState(0)
     // async function fetchData() {
@@ -28,7 +28,7 @@ const TopRestaurant = ({ data = []}) => {
         <>
 
             <div className='flex justify-between mt-16'>
-                <h1 className='text-2xl font-bold'>Top restaurant chains in Surat</h1>
+                <h1 className='text-2xl font-bold'>{ TopResTitle}</h1>
                 <div className='flex gap-2 '>
                     <div onClick={handlePrev} className={`cursor-pointer rounded-full w-9 h-9 flex justify-center items-center bg-gray-200 ` + (value <= 0 ? "bg-gray-100" : "text-gray-200")}>
                         <FaArrowLeft className={value <= 0 ? " text-gray-300" : "text-gray-800"} />

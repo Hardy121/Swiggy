@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { MdStars } from "react-icons/md";
 import { FiSearch } from "react-icons/fi"
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { FaArrowRight, FaArrowLeft } from "react-icons/fa";
 import { IoIosStar } from "react-icons/io";
+import { Coordinate } from '../context/ContextAPI';
 
 
 const RestaurantMenu = () => {
@@ -19,12 +20,14 @@ const RestaurantMenu = () => {
   const [menuData, setmenuData] = useState([])
   const [discountData, setdiscountData] = useState([])
   const [topPicks, settopPicks] = useState(null)
+  const {coord : {lat , lng}} = useContext(Coordinate)
+
   // const [currentidx, setcurrentidx] = useState(0)
 
   // console.log(menuData)
 
   async function fetchmenu() {
-    let data = await fetch(`https://www.swiggy.com/dapi/menu/pl?page-type=REGULAR_MENU&complete-menu=true&lat=21.18880&lng=72.82930&restaurantId=${mainId}&catalog_qa=undefined&submitAction=ENTER`);
+    let data = await fetch(`https://www.swiggy.com/dapi/menu/pl?page-type=REGULAR_MENU&complete-menu=true&lat=${lat}&lng=${lng}&restaurantId=${mainId}&catalog_qa=undefined&submitAction=ENTER`);
     let res = await data.json();
     // console.log(res?.data?.cards[4]?.groupedCard?.cardGroupMap?.REGULAR?.cards[1]?.card?.card)
     setresInfo(res?.data?.cards[2]?.card?.card?.info)
@@ -61,7 +64,7 @@ const RestaurantMenu = () => {
 
 
   return (
-    <div className='w-full relative top-20'>
+    <div className='w-full relative'>
 
 
       <div className="mx-auto w-[750px]">
@@ -117,7 +120,7 @@ const RestaurantMenu = () => {
 
           {/*             Deals for you start from here                 */}
 
-          <div className='w-full'>
+          <div className='w-full relative'>
             <div className='flex justify-between mt-8'>
               <h1 className='text-xl font-bold'>Deals  for you</h1>
               <div className='flex gap-2 '>

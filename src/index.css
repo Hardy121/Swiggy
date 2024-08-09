@@ -1,3 +1,22 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.FilterBtn{
+    border:1px solid #D9DADB;
+    padding:5px 15px;
+    border-radius:20px;
+    font-size:14px;
+    color:  rgba(2, 6, 12, 0.75);
+    font-weight:500;
+    display: flex;
+    align-items: center;
+    gap:3px;
+}
+.actived{
+    background-color: #D9DADB;
+    border:1px solid;
+}
+.actived .crossed{
+    display: block;
+}

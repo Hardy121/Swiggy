@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 const Cart = () => {
     const { cartData, setcartData } = useContext(CartContaxt)
-    console.log(cartData)
+    // console.log(cartData)
     // let totalPrice = 0;
     // for (let i = 0; i < cartData.length; i++) {
     //     totalPrice = totalPrice + cartData[i].price /100 || cartData[i].defaultPrice / 100 
@@ -41,7 +41,7 @@ const Cart = () => {
 
     return (
         <>
-            <div className="w-full" >
+         <div className="w-full" >
                 <div className="w-[60%] mx-auto ">
                     {
                         cartData.map((data, index) => (
@@ -60,7 +60,7 @@ const Cart = () => {
                     <h1>₹{totalPrice}</h1>
                     <button onClick={handleClearCart} className="p-3 bg-green-600 my-5 rounded-lg hover:bg-green-700 text-white" >Clear cart</button>
                 </div>
-            </div>
+            </div> 
         </>
     )
 }

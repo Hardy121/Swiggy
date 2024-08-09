@@ -12,14 +12,14 @@ const App = () => {
   const [coord, setcoord] = useState({ lat: 21.18880, lng: 72.82930 })
   const [cartData, setcartData] = useState([])
 
-  function get_data_from_local_storage() {
-      let data = JSON.parse(localStorage.getItem("cartData")) || []
-      setcartData(data)
-  }
-  useEffect(() => {
-    get_data_from_local_storage()
-  }
-    , [])
+    function get_data_from_local_storage() {
+        let data = JSON.parse(localStorage.getItem("cartData")) || []
+        setcartData(data)
+    }
+    useEffect(() => {
+      get_data_from_local_storage()
+    }
+      , [])
   return (
     <>
       <CartContaxt.Provider value={{ cartData, setcartData }}>

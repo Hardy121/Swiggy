@@ -20,7 +20,7 @@ const RestaurantMenu = () => {
   const [menuData, setmenuData] = useState([])
   const [discountData, setdiscountData] = useState([])
   const [topPicks, settopPicks] = useState(null)
-  const {coord : {lat , lng}} = useContext(Coordinate)
+  const { coord: { lat, lng } } = useContext(Coordinate)
 
   // const [currentidx, setcurrentidx] = useState(0)
 
@@ -205,7 +205,7 @@ const RestaurantMenu = () => {
 
             <div className='mt-5'>
               {menuData.map(({ card: { card } }) => (
-                <Menucard card={card} />))}
+                <Menucard card={card} resInfo={resInfo} />))}
             </div>
 
 
@@ -220,7 +220,7 @@ const RestaurantMenu = () => {
   )
 }
 
-function Menucard({ card }) {
+function Menucard({ card , resInfo}) {
 
   let hello = false;
   if (card["@type"]) {
@@ -245,7 +245,7 @@ function Menucard({ card }) {
             }
           </div>
           {
-            IsOpen && <DetailMenu itemCards={itemCards} />
+            IsOpen && <DetailMenu itemCards={itemCards} resInfo={resInfo} />
           }
 
         </div>
@@ -263,7 +263,7 @@ function Menucard({ card }) {
         {
           categories.map(data => (
             <div className=''>
-              <Menucard card={data} />
+              <Menucard card={data} resInfo={resInfo} />
             </div>
           ))
         }
@@ -273,12 +273,12 @@ function Menucard({ card }) {
 
   }
 }
-function DetailMenu({ itemCards }) {
+function DetailMenu({ itemCards , resInfo}) {
   return (
     <div>
       {
         itemCards.map(({ card: { info } }) => (
-          <DetailMenuCard info={info} />
+          <DetailMenuCard info={info} resInfo={resInfo} />
         ))
       }
     </div>
@@ -286,32 +286,40 @@ function DetailMenu({ itemCards }) {
 }
 
 
-function DetailMenuCard({ info}) {
+function DetailMenuCard({ info , resInfo }) {
 
   const {
-       name,
-      defaultPrice,
-      price,
-      itemAttribute: { vegClassifier },
-      offerTags,
-      ratings: { aggregatedRating: { ratingCountV2, rating } },
-      description = " ",
-      imageId
-    } = info
+    name,
+    defaultPrice,
+    price,
+    itemAttribute: { vegClassifier },
+    offerTags,
+    ratings: { aggregatedRating: { ratingCountV2, rating } },
+    description = " ",
+    imageId
+  } = info
 
-    const {cartData ,  setcartData} = useContext(CartContaxt)
-  
-  function handleAddToCart(){
+  const { cartData, setcartData } = useContext(CartContaxt)
+
+  function handleAddToCart() {
 
     const isadded = cartData.find((data) => data.id === info.id)
-    if(!isadded){
-      setcartData((prev) => [...prev , info ] ) // items add thashe ane previous items remove ny thay 
-      localStorage.setItem("cartData" , JSON.stringify([...cartData , info ]))
+    let getResInfoFromLocalStorage = JSON.parse(localStorage.getItem("resInfo")) || []
+    if (!isadded) {
+      if (getResInfoFromLocalStorage.name === resInfo.name || getResInfoFromLocalStorage.length === 0 ) {
+        setcartData((prev) => [...prev, info]) // items add thashe ane previous items remove ny thay 
+        localStorage.setItem("cartData", JSON.stringify([...cartData, info]));   
+        localStorage.setItem("resInfo", JSON.stringify(resInfo));    
+      }
+      else{
+          alert("different restaurant")
+      }
+     
     }
-    else{
+    else {
       alert("item is already in cart")
     }
-    // console.log(info)
+    console.log(info)
   }
 
   const [ismore, setismore] = useState(false)

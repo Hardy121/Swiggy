@@ -6,6 +6,7 @@ import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { FaArrowRight, FaArrowLeft } from "react-icons/fa";
 import { IoIosStar } from "react-icons/io";
 import { CartContaxt, Coordinate } from '../context/ContextAPI';
+import toast from 'react-hot-toast';
 
 
 const RestaurantMenu = () => {
@@ -220,7 +221,7 @@ const RestaurantMenu = () => {
   )
 }
 
-function Menucard({ card , resInfo}) {
+function Menucard({ card, resInfo }) {
 
   let hello = false;
   if (card["@type"]) {
@@ -273,7 +274,7 @@ function Menucard({ card , resInfo}) {
 
   }
 }
-function DetailMenu({ itemCards , resInfo}) {
+function DetailMenu({ itemCards, resInfo }) {
   return (
     <div>
       {
@@ -286,7 +287,7 @@ function DetailMenu({ itemCards , resInfo}) {
 }
 
 
-function DetailMenuCard({ info , resInfo }) {
+function DetailMenuCard({ info, resInfo }) {
 
   const {
     name,
@@ -299,6 +300,7 @@ function DetailMenuCard({ info , resInfo }) {
     imageId
   } = info
 
+
   const { cartData, setcartData } = useContext(CartContaxt)
 
   function handleAddToCart() {
@@ -306,20 +308,34 @@ function DetailMenuCard({ info , resInfo }) {
     const isadded = cartData.find((data) => data.id === info.id)
     let getResInfoFromLocalStorage = JSON.parse(localStorage.getItem("resInfo")) || []
     if (!isadded) {
-      if (getResInfoFromLocalStorage.name === resInfo.name || getResInfoFromLocalStorage.length === 0 ) {
+      if (getResInfoFromLocalStorage.name === resInfo.name || getResInfoFromLocalStorage.length === 0) {
         setcartData((prev) => [...prev, info]) // items add thashe ane previous items remove ny thay 
-        localStorage.setItem("cartData", JSON.stringify([...cartData, info]));   
-        localStorage.setItem("resInfo", JSON.stringify(resInfo));    
+        localStorage.setItem("cartData", JSON.stringify([...cartData, info]));
+        localStorage.setItem("resInfo", JSON.stringify(resInfo));
+        toast.success("Food added to the cart")
       }
-      else{
-          alert("different restaurant")
+      else {
+
+        toast.error("Different restaurant")
+        setisDiffRes((prev) => !prev)
+
       }
-     
+
     }
     else {
-      alert("item is already in cart")
+      toast.error("Already added to the cart")
     }
-    console.log(info)
+
+  }
+
+  const [isDiffRes, setisDiffRes] = useState(false)
+  function handleIsDiffRes() {
+    setisDiffRes((prev) => !prev)
+  }
+  function clearcart() {
+    setcartData([])
+    localStorage.clear()
+    handleIsDiffRes()
   }
 
   const [ismore, setismore] = useState(false)
@@ -355,8 +371,21 @@ function DetailMenuCard({ info , resInfo }) {
             <img className='rounded-xl' src={"https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_300,h_300,c_fit/" + imageId} alt="" />
             <button onClick={handleAddToCart} className='bg-white cursor-pointer text-lg border px-9 absolute -bottom-5 left-3  py-1 rounded-lg  text-[#1ba672] font-bold hover:bg-[#D9DADB]'>ADD</button>
           </div>
+          <hr className='mt-5' />
         </div>
-        <hr className='mt-5' />
+        {
+          isDiffRes && (
+
+            <div className='w-[520px] h-[204px] bottom-10 left-[28%] fixed shadow-xl z-40 bg-white p-7'>
+              <h1 className='text-[18px] text-[#282c3f] font-bold'>Item already in cart</h1>
+              <p className='text-[14px] text-[#535665]'>Your cart contains items from other restaurant. Would you like to reset your cart for adding items from this restaurant?</p>
+              <div className='w-full flex gap-5 mt-6'>
+                <button onClick={handleIsDiffRes} className='w-1/2 border-[3px] border-[#60b246] py-3 bg-white text-[#60b246] font-semibold text-[16px]'>No</button>
+                <button onClick={clearcart} className='w-1/2 border-[3px] border-[#60b246] py-3 bg-[#60b246] text-white font-semibold text-[16px]'>Yes, Start A Fresh</button>
+              </div>
+            </div>
+          )
+        }
       </>
 
 

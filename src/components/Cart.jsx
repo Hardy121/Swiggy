@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react'
 import { CartContaxt } from '../context/ContextAPI';
 import { Link } from 'react-router-dom';
+import toast from 'react-hot-toast';
 
 const Cart = () => {
     const { cartData, setcartData } = useContext(CartContaxt)
@@ -31,11 +32,13 @@ const Cart = () => {
         newArr.splice(index, 1)
         setcartData(newArr)
         localStorage.setItem("cartData", JSON.stringify(newArr))
+        toast.success("Food is removed")
 
     }
     function handleClearCart(){
         setcartData([])
         localStorage.clear()
+        toast.success("Cart is cleared")
         
     }
 

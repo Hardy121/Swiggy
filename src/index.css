@@ -20,3 +20,6 @@
 .actived .crossed{
     display: block;
 }
+body{
+    overflow-x: hidden;
+}

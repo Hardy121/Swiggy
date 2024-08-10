@@ -5,7 +5,7 @@ import { FiSearch } from "react-icons/fi"
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { FaArrowRight, FaArrowLeft } from "react-icons/fa";
 import { IoIosStar } from "react-icons/io";
-import { CartContaxt, Coordinate } from '../context/ContextAPI';
+import { CartContaxt, Coordinate, ResInfo } from '../context/ContextAPI';
 import toast from 'react-hot-toast';
 
 
@@ -16,8 +16,7 @@ const RestaurantMenu = () => {
   let mainId = (id.split('-').at(-1))
 
 
-
-  const [resInfo, setresInfo] = useState([])
+  const {resInfo , setresInfo} = useContext(ResInfo)
   const [menuData, setmenuData] = useState([])
   const [discountData, setdiscountData] = useState([])
   const [topPicks, settopPicks] = useState(null)
@@ -274,6 +273,7 @@ function Menucard({ card, resInfo }) {
 
   }
 }
+
 function DetailMenu({ itemCards, resInfo }) {
   return (
     <div>
@@ -285,7 +285,6 @@ function DetailMenu({ itemCards, resInfo }) {
     </div>
   )
 }
-
 
 function DetailMenuCard({ info, resInfo }) {
 
@@ -380,7 +379,7 @@ function DetailMenuCard({ info, resInfo }) {
               <h1 className='text-[18px] text-[#282c3f] font-bold'>Item already in cart</h1>
               <p className='text-[14px] text-[#535665]'>Your cart contains items from other restaurant. Would you like to reset your cart for adding items from this restaurant?</p>
               <div className='w-full flex gap-5 mt-6'>
-                <button onClick={handleIsDiffRes} className='w-1/2 border-[3px] border-[#60b246] py-3 bg-white text-[#60b246] font-semibold text-[16px]'>No</button>
+                <button onClick={handleIsDiffRes} className='w-1/2 border-[3px] border-[#51a239] py-3 bg-white text-[#60b246] font-semibold text-[16px]'>No</button>
                 <button onClick={clearcart} className='w-1/2 border-[3px] border-[#60b246] py-3 bg-[#60b246] text-white font-semibold text-[16px]'>Yes, Start A Fresh</button>
               </div>
             </div>
@@ -392,7 +391,6 @@ function DetailMenuCard({ info, resInfo }) {
     </div>
   )
 }
-
 
 function Discount({ data: { info: { header, offerLogo, couponCode } } }) {
   // console.log(data)

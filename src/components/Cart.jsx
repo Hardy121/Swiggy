@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react'
-import { CartContaxt, ResInfo } from '../context/ContextAPI';
+import { CartContaxt, ResInfo, Visibility } from '../context/ContextAPI';
 import { Link, useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { useSelector } from 'react-redux';
@@ -21,14 +21,15 @@ const Cart = () => {
     let totalPrice = cartData.reduce((acc, curVal) => (acc + curVal.price / 100 || curVal.defaultPrice / 100), 0)
 
     if (cartData.length === 0) {
-        return <div className='w-full'>
-            <div>
+        return <div className='w-full h-full'>
 
+            <div className='flex  flex-col justify-center items-center text-center  mt-5'>
+                <img className='w-[300px] h-[300px]' src="https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto/2xempty_cart_yfxml0" alt="" />
+                <h1 className='font-bold text-2xl'>Your cart is empty</h1>
+                <p className='opacity-70 text-gray-600'>You can go to home page to view more restaurants</p>
+                <Link to="/" className='bg-[#F75002] px-5  p-4 my-2 text-white inline-block font-bold ' >SEE RESTAURANT NEAR YOU</Link>
             </div>
-            <div className='w-[50%] mx-auto'>
-                <h1>you have nothing in cart, add something in cart</h1>
-                <Link to="/" className='bg-green-600 p-2 mt-10 text-white rounded-lg inline-block' > add from here</Link>
-            </div>
+
         </div>
 
     }
@@ -48,16 +49,19 @@ const Cart = () => {
 
     }
     const userData = useSelector((state) => state.authSlice.userData)
+    const { setloginvisible } = useContext(Visibility)
+
     function handlePlaceOrder() {
 
         if (!userData) {
             toast.error("Login for place order")
-            // navigate("/signin")
+
+            setloginvisible((prev) => !prev)
+
             return
         }
         toast.success("order placed")
         setcartData([])
-        localStorage.clear("cartData")
 
 
 
@@ -77,6 +81,7 @@ const Cart = () => {
         <>
             <div className="w-full" >
                 <div className="w-[60%] mx-auto ">
+                    <Link to={`/restaurant-menu/${resInfo.id}`}>
                     <div className='flex  gap-3'>
                         <img className='rounded-xl aspect-square object-cover w-[110px] h-[110px]  overflow-hidden' src={"https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_300,h_300,c_fit/" + resInfo.cloudinaryImageId} alt="" />
                         <div>
@@ -84,6 +89,7 @@ const Cart = () => {
                             <p className='text-xl'>{resInfo.areaName}</p>
                         </div>
                     </div>
+                    </Link>
                     {
                         cartData.map(({
                             name,
@@ -109,7 +115,7 @@ const Cart = () => {
                                         <button onClick={handleRemoveFromCart} className='bg-white cursor-pointer text-lg border px-6 absolute -bottom-5 left-5  py-1 rounded-lg  text-red-600 font-bold hover:bg-red-500 hover:text-white'>REMOVE</button>
                                     </div>
                                 </div>
-                                <hr className='w-full my-3'  />
+                                <hr className='w-full my-3' />
                             </>
 
                         ))

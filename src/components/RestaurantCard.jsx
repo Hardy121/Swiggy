@@ -6,7 +6,7 @@ const RestaurantCard = (info) => {
     // console.log(info)
     return (
         <Link to={`/restaurant-menu/${info.link.split('/')[4]}`}>
-            <div className='min-w-[295px] h-[182px] cursor-pointer duration-1000 relative overflow-hidden rounded-xl '>
+            <div className='min-w-[295px] h-[182px] xs:min-w-[200px] xs:h-[150px]  cursor-pointer duration-1000 relative overflow-hidden rounded-xl '>
                 <div>
                     <img className='w-full h-full object-cover rounded-xl ' src={`https://media-assets.swiggy.com/swiggy/image/upload/${info?.cloudinaryImageId}`} alt="" />
                     <div className="absolute rounded-xl bg-gradient-to-t from-black from-1% to-transparent to-40% w-full h-full top-0">   </div>

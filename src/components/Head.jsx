@@ -18,29 +18,29 @@ import SignInPage from './SignInPage';
 
 const Head = () => {
     const navItem = [
-        {
-            name: " Corporate",
-            image: <PiHandbag />,
-            path: "/corporate"
-        },
+        // {
+        //     name: " Corporate",
+        //     image: <PiHandbag />,
+        //     path: "/corporate"
+        // },
         {
             name: "Search",
             image: <FiSearch />,
             path: "/search"
 
         },
-        {
-            name: "Offers",
-            image: <BiSolidOffer />,
-            path: "/offers"
+        // {
+        //     name: "Offers",
+        //     image: <BiSolidOffer />,
+        //     path: "/offers"
 
-        },
-        {
-            name: "Help",
-            image: <IoIosHelpBuoy />,
-            path: "/help"
+        // },
+        // {
+        //     name: "Help",
+        //     image: <IoIosHelpBuoy />,
+        //     path: "/help"
 
-        },
+        // },
         {
             name: "Sign in",
             image: <IoMdLogIn />,
@@ -110,7 +110,7 @@ const Head = () => {
 
             <div className='w-full' >
                 <div className={" h-full absolute bg-black/30  z-30 w-full " + (visible ? "visible" : "invisible")} >
-                    <div className={"bg-white px-10 flex justify-end  w-[40%] absolute z-40 h-full duration-700 box-shadow " + (visible ? "left-0" : "-left-full")}>
+                    <div className={"bg-white px-10 lg:px-0 lg:justify-center flex justify-end  md:w-full w-[40%] absolute z-40 h-full duration-700 box-shadow " + (visible ? "left-0" : "-left-full")}>
                         <div className='flex flex-col w-[75%] mt-3' >
 
 
@@ -147,7 +147,7 @@ const Head = () => {
 
             <div className='w-full' >
                 <div className={" h-full absolute bg-black/30  z-30 w-full " + (loginvisible ? "visible" : "invisible")} >
-                    <div className={"bg-white px-10 flex justify-start  w-[35%] absolute z-40 h-full duration-700 box-shadow " + (loginvisible ? "right-0" : "-right-full")}>
+                    <div className={"bg-white px-10 flex justify-start lg:w-full w-[35%] fixed z-40 h-full duration-700 box-shadow " + (loginvisible ? "right-0" : "-right-full")}>
                         <div className='flex flex-col w-[80%] mt-3' >
                             <p className="text-2xl font-bold cursor-pointer mb-3 w-[10%]" onClick={handlelogin}><IoClose /></p>
                             <div className='flex justify-between items-center'>
@@ -162,23 +162,24 @@ const Head = () => {
             </div>
 
             <div className='relative w-full'>
-                <div className="w-full shadow-md flex justify-center items-center sticky bg-white z-20 top-0">
-                    <div className='h-fit w-[70%] flex justify-between lg:flex-col '>
+                <div className="w-full shadow-md flex justify-center items-center sticky  bg-white z-20 top-0">
+                    <div className='h-fit w-[70%] flex justify-between  md:w-full md:my-2  '>
 
-
-                        <div className='flex items-center'>
+                        <div className='flex items-center justify-center '>
+                            <div  className='w-24 ' >
                             <Link to={'/'}>
-                                <img src={logo} alt="" className='w-24 ' />
+                                <img src={logo} alt=""/>
                             </Link>
+                            </div>
                             <div className='flex  items-end cursor-pointer' onClick={handlevisiblity}>
                                 <p className='flex items-center'>
                                     <span className='font-bold border-b-2 border-black '> other</span>
-                                    <span className='  w-24 text-xs text-gray-600 font-bold ml-2 line-clamp-1 '>  {adress}</span></p>
+                                    <span className=' max-w-[250px]  text-xs text-gray-600 font-bold ml-2 line-clamp-1 '>  {adress}</span></p>
                                 <div> <IoIosArrowDown className='text-xl text-orange-500' /> </div>
                             </div>
                         </div>
 
-                        <div className='flex items-center gap-6 lg:flex-wrap'>
+                        <div className='flex items-center gap-6 md:gap-0'>
                             {
                                 navItem.map((data, index) => (
                                     data.name == "Sign in" ?
@@ -191,7 +192,7 @@ const Head = () => {
                                                 }
 
 
-                                                <p className='text-md font-semibold  '>{userData ? userData.name : data.name}</p>
+                                                <p className='text-md font-semibold  md:hidden'>{userData ? userData.name : data.name}</p>
 
 
 
@@ -201,9 +202,9 @@ const Head = () => {
                                             </div>
                                         </div> :
                                         <Link to={data.path}>
-                                            <div key={index} className='flex gap-1 items-center  text-gray-700 hover:text-orange-500 cursor-pointer'>
+                                            <div key={index} className='flex  items-center px-5 md:px-4  text-gray-700 hover:text-orange-500 cursor-pointer'>
                                                 <div >{data.image}</div>
-                                                <p className='text-md font-semibold  '>{data.name}</p>
+                                                <p className='text-md font-semibold md:hidden '>{data.name}</p>
                                                 {data.name === "Cart" &&
                                                     <p>{cartData.length}</p>}
 

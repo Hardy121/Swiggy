@@ -29,7 +29,7 @@ const OnMind = ({data = []}) => {
     return (
         <>
 
-            <div className='flex justify-between relative mt-24'>
+            <div className='flex justify-between relative mt-3'>
                 <h1 className='text-2xl font-bold'>What's on your mind ?</h1>
                 <div className='flex gap-2 '>
                     <div onClick={handlePrev} className={`cursor-pointer rounded-full w-9 h-9 flex justify-center items-center bg-gray-200 ` + (value <= 0 ? "bg-gray-100" : "text-gray-200")}>

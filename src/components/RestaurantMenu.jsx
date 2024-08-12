@@ -67,7 +67,7 @@ const RestaurantMenu = () => {
     <div className='w-full relative'>
 
 
-      <div className="mx-auto w-[750px]">
+      <div className="mx-auto w-[750px] md:w-[95%]">
         <p className='py-8 text-[12px]  text-slate-500 cursor-pointer'><Link to='/'> <span className='hover:text-slate-900 '>Home  </span></Link> / <Link to='/'> <span className='hover:text-slate-900 '>{resInfo?.city}</span> </Link>   / <span className='text-slate-700'>{resInfo?.name}</span></p>
         <h1 className='font-bold pl-3 text-2xl'>{resInfo.name}</h1>
 
@@ -109,7 +109,7 @@ const RestaurantMenu = () => {
             <div className='p-4 '>
               <div className='flex items-center'>
                 <img className='w-6' src={`https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_40,h_40/${resInfo.feeDetails?.icon}`} alt="" />
-                <span className='ml-3'>Order Above 149 for discounted delivery fee</span>
+                <span className='ml-3 sm:text-sm  '>Order Above 149 for discounted delivery fee</span>
 
               </div>
             </div>
@@ -347,28 +347,28 @@ function DetailMenuCard({ info, resInfo }) {
     <div className='my-5'>
       <>
         <div className='flex items-center justify-between mt-5 w-full min-h-[182px]' >
-          <div className='w-[70%]'>
+          <div className='w-[70%] md:w-[60%] sm:w-[60%]' >
             <img className='w-5 rounded-sm' src={(vegClassifier === "VEG" ? veg : noneveg)} alt="" />
-            <h1 className='text-lg font-semibold'>{name}</h1>
-            <p className='text-lg font-semibold'>₹{defaultPrice / 100 || price / 100}</p>
+            <h1 className='text-lg font-semibold sm:text-base'>{name}</h1>
+            <p className='text-lg font-semibold sm:text-base'>₹{defaultPrice / 100 || price / 100}</p>
             <p className='flex items-center gap-1'><IoIosStar className='text-green-700' /><span className='text-green-600'>{rating}({ratingCountV2})</span> </p>
             {
               description.length > 130 ?
                 <div>
-                  <span className=''>{ismore ? description : trimdis}</span>
-                  <button className='font-semibold text-gray-400' onClick={() => { setismore(!ismore) }}>{ismore ? "less" : "more"}</button>
+                  <span className='md:line-clamp-2'>{ismore ? description : trimdis}</span>
+                  <button className='font-semibold text-gray-400 md:hidden' onClick={() => { setismore(!ismore) }}>{ismore ? "less" : "more"}</button>
 
                 </div>
                 :
-                <span className=''>{description}</span>
+                <span className='sm:text-sm'>{description}</span>
 
 
             }
           </div>
 
-          <div className='w-[20%] relative h-full'>
+          <div className='w-[20%] md:w-[30%] sm:w-[35%]  relative h-full'>
             <img className='rounded-xl' src={"https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_300,h_300,c_fit/" + imageId} alt="" />
-            <button onClick={handleAddToCart} className='bg-white cursor-pointer text-lg border px-9 absolute -bottom-5 left-3  py-1 rounded-lg  text-[#1ba672] font-bold hover:bg-[#D9DADB]'>ADD</button>
+            <button onClick={handleAddToCart} className='bg-white cursor-pointer text-lg border px-9 sm:px-5   absolute -bottom-5 left-1/2 -translate-x-1/2 py-1 rounded-lg  text-[#1ba672] font-bold hover:bg-[#D9DADB]'>ADD</button>
           </div>
           <hr className='mt-5' />
         </div>

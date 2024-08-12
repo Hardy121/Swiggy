@@ -36,7 +36,7 @@ const OnlineFoodDlv = ({ data, DlvResTitle }) => {
         <>
             <div className='text-2xl font-bold'>{DlvResTitle}</div>
 
-            <div className={'flex gap-4 my-5'}>
+            <div className={'flex flex-wrap gap-4 my-5'}>
                 {
                     filteroption.map((data, index) => (
 
@@ -51,7 +51,7 @@ const OnlineFoodDlv = ({ data, DlvResTitle }) => {
             </div>
 
 
-            <div className='grid grid-cols-3     sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10 mt-5'>
+            <div className='grid grid-cols-3      sm:grid-cols-2 xs:grid-cols-2 xd:grid-cols-1 md:grid-cols-2   lg:grid-cols-2 xl:grid-cols-2  2xl:grid-cols-4 gap-10 mt-5'>
                 {
                     data.map(({ info, index, cta: { link } }) => (
 

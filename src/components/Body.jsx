@@ -60,7 +60,7 @@ const Body = () => {
     return (<>
 
         <div className="w-full">
-            <div className="mx-auto w-[75%]  mt-3 overflow-hidden">
+            <div className="mx-auto md:w-full md:px-5 w-[75%] sm:px-2   mt-3 overflow-hidden">
                 < OnMind data={OnYourMindData} />
                 <TopRestaurant data={TopRestaurantData} TopResTitle={TopResTitle} />
                 <OnlineFoodDlv data={filterVal ? filterdData : TopRestaurantData} DlvResTitle={DlvResTitle} />

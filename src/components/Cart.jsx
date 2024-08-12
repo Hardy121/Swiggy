@@ -80,7 +80,7 @@ const Cart = () => {
     return (
         <>
             <div className="w-full" >
-                <div className="w-[60%] mx-auto ">
+                <div className="w-[60%] md:w-[95%] mx-auto mt-4 ">
                     <Link to={`/restaurant-menu/${resInfo.id}`}>
                     <div className='flex  gap-3'>
                         <img className='rounded-xl aspect-square object-cover w-[110px] h-[110px]  overflow-hidden' src={"https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_300,h_300,c_fit/" + resInfo.cloudinaryImageId} alt="" />
@@ -89,6 +89,9 @@ const Cart = () => {
                             <p className='text-xl'>{resInfo.areaName}</p>
                         </div>
                     </div>
+
+                    <hr className='my-5' />
+
                     </Link>
                     {
                         cartData.map(({
@@ -103,16 +106,16 @@ const Cart = () => {
                         }, index) => (
                             <>
                                 <div className='flex items-center justify-between mt-5 w-full min-h-[182px]' >
-                                    <div className='w-[70%]'>
+                                    <div className='w-[70%] sm:w-[65%]'>
                                         <img className='w-5 rounded-sm' src={(vegClassifier === "VEG" ? veg : noneveg)} alt="" />
                                         <h1 className='text-lg font-semibold'>{name}</h1>
                                         <p className='text-lg font-semibold'>₹{defaultPrice / 100 || price / 100}</p>
                                         <p className='flex items-center gap-1'><IoIosStar className='text-green-700' /><span className='text-green-600'>{rating}({ratingCountV2})</span> </p>
                                         <span className='line-clamp-3   '>{description}</span>
                                     </div>
-                                    <div className='w-[20%] relative h-full'>
+                                    <div className='w-[20%] sm:w-[35%] relative h-full'>
                                         <img className='rounded-xl' src={"https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_300,h_300,c_fit/" + imageId} alt="" />
-                                        <button onClick={handleRemoveFromCart} className='bg-white cursor-pointer text-lg border px-6 absolute -bottom-5 left-5  py-1 rounded-lg  text-red-600 font-bold hover:bg-red-500 hover:text-white'>REMOVE</button>
+                                        <button onClick={handleRemoveFromCart} className='bg-white cursor-pointer text-lg border px-6  sm:px-3 absolute -bottom-5 left-1/2 -translate-x-1/2  py-1 rounded-lg  text-red-600 font-bold hover:bg-red-500 hover:text-white'>REMOVE</button>
                                     </div>
                                 </div>
                                 <hr className='w-full my-3' />

@@ -4,17 +4,16 @@ import toast from 'react-hot-toast'
 
 const ATCbtn = ({ info, resInfo, handleIsDiffRes }) => {
 
-    const [otherRes, setotherRes] = useState(false)
-    function handleIsDiffRes() {
-        setotherRes((prev) => !prev)
-    }
-
     function clearcart() {
         setcartData([])
         localStorage.clear()
         handleIsDiffRes()
     }
 
+    const [otherRes, setotherRes] = useState(false)
+    function handleIsDiffRes() {
+        setotherRes((prev) => !prev)
+    }
     const { cartData, setcartData } = useContext(CartContaxt)
     function handleAddToCart() {
 

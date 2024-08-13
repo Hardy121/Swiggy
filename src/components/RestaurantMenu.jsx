@@ -298,6 +298,7 @@ function DetailMenuCard({ info, resInfo }) {
     ratings: { aggregatedRating: { ratingCountV2, rating } },
     description = " ",
     imageId,
+    id
   } = info
 
 

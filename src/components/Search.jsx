@@ -3,6 +3,9 @@ import { Coordinate } from '../context/ContextAPI'
 import { data } from 'autoprefixer'
 import Dishes from './Dishes'
 import Restaurant from './Restaurant'
+import { RiArrowLeftSLine } from "react-icons/ri";
+import { RiSearch2Line } from "react-icons/ri";
+
 
 const Search = () => {
     const [activebtn, setactivebtn] = useState("Dishes")
@@ -68,19 +71,25 @@ const Search = () => {
         <>
             <div className='w-[800px] md:w-full mx-auto mt-5'>
                 <div className=' '>
-                    <div className='md:px-10'>
+                    <div className='md:px-10 w-full relative'>
+
+                        <RiArrowLeftSLine className='absolute top-1/2 text-xl left-2 cursor-pointer  -translate-y-1/2' />
+
                         <input
                             onKeyDown={handleSearchQuery}
                             // onChange={(e) => setsearcQuery(e.target.value)}
-                            className='border-[1.5px] w-full px-10 py-3 focus:outline-none focus:shadow-md'
+                            className='border-[1.5px] w-full px-8 py-3 focus:outline-none focus:shadow-md focus:font-semibold '
                             type="text"
                             placeholder='Search for restaurant and food' />
+
+                        <RiSearch2Line className='cursor-pointer absolute right-5 top-1/2 -translate-y-1/2  text-xl m' />
+
                     </div>
                     <div className={'flex flex-wrap gap-4 my-5'}>
                         {
                             filteroption.map((data, index) => (
 
-                                <button onClick={() => handleFilterBtn(data.filterbtn)} key={index} className={`FilterBtn ${(activebtn === data.filterbtn ? 'actived' : "")}`}>
+                                <button onClick={() => handleFilterBtn(data.filterbtn)} key={index} className={`FilterBtn ${(activebtn === data.filterbtn ? 'actived2' : "")} `}>
                                     <p>{data.filterbtn}</p>
                                 </button>
 

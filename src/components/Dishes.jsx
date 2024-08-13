@@ -32,7 +32,9 @@ const Dishes = ({
                 <div>
                     <div className='flex justify-between min-w-fit items-start text-sm '>
                         <div>
-                            <p className='font-bold opacity-70 '>By {resName}</p>
+                            <Link to={`/restaurant-menu/${id}`}>
+                                <p className='font-bold opacity-70 '>By {resName}</p>
+                            </Link>
                             <p className='flex items-center gap-1 opacity-60'><IoIosStar className='text-green-800' /> {avgRating} • {slaString} </p>
                         </div>
                         <div> <Link to="/cart"><FaArrowRight className='text-lg cursor-pointer' /></Link></div>
@@ -47,13 +49,17 @@ const Dishes = ({
                                     isVeg ? <img src={veg} alt="" /> : <img src={noneveg} alt="" />
                                 }
                             </div>
-                            <p className='font-bold text-lg' >{name}</p>
+                            <Link to={`/restaurant-menu/${id}`}>
+                                <p className='font-bold text-lg' >{name}</p>
+                            </Link>
                             <p>₹{price / 100}</p>
                             <p className='border w-fit px-4 py-[2px] rounded-2xl text-sm cursor-pointer '>More Detail </p>
                         </div>
                         <div className='w-[40%] relative  h-full'>
                             <img className='rounded-xl object-cover aspect-square' src={"https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_300,h_300,c_fit/" + imageId} alt={name} />
-                            <ATCbtn info={info} resInfo={resInfo} />
+                            <div onClick={handleSameRestaurant}>
+                                <ATCbtn info={info} resInfo={resInfo} />
+                            </div>
                         </div>
                     </div>
 

@@ -1,0 +1,104 @@
+import React, { useContext, useEffect, useState } from 'react'
+import { Coordinate } from '../context/ContextAPI'
+import { data } from 'autoprefixer'
+import Dishes from './Dishes'
+import Restaurant from './Restaurant'
+
+const Search = () => {
+    const [activebtn, setactivebtn] = useState("Dishes")
+    const [searcQuery, setsearcQuery] = useState("")
+    const [dishes, setdishes] = useState([])
+    const [restaurantData, setrestaurantData] = useState([])
+
+    const { coord: { lat, lng } } = useContext(Coordinate)
+
+
+    const filteroption = [
+        {
+            filterbtn: "Restaurant"
+        },
+        {
+            filterbtn: "Dishes"
+        },
+
+
+    ]
+    function handleFilterBtn(filterbtn) {
+        setactivebtn(activebtn === filterbtn ? activebtn : filterbtn)
+    }
+
+    async function fetchfood() {
+        let data = await fetch(`https://www.swiggy.com/dapi/restaurants/search/v3?lat=${lat}&lng=${lng}&str=${searcQuery}&trackingId=undefined&submitAction=ENTER&queryUniqueId=abce1bbd-a947-b031-e331-a8001a925e5e`)
+        let res = await data.json()
+        let finalData = (res?.data?.cards[1]?.groupedCard?.cardGroupMap?.DISH?.cards).filter(data => data?.card?.card?.info)
+        setdishes(finalData)
+
+
+    }
+
+    async function fetchrestaurant() {
+        let data = await fetch(`https://www.swiggy.com/dapi/restaurants/search/v3?lat=${lat}&lng=${lng}&str=${searcQuery}&trackingId=undefined&submitAction=ENTER&queryUniqueId=abce1bbd-a947-b031-e331-a8001a925e5e&selectedPLTab=RESTAURANT`)
+        let res = await data.json()
+        let finalData = (
+            (res?.data?.cards[0]?.groupedCard?.cardGroupMap?.RESTAURANT?.cards).filter(data => data?.card?.card?.info)
+        )
+        setrestaurantData(finalData)
+    }
+
+    useEffect(() => {
+        if (searcQuery == "") {
+            return
+        }
+        fetchfood(),
+            fetchrestaurant()
+    }, [searcQuery])
+
+    let x = ""
+    function handleSearchQuery(e) {
+        let val = e.target.value
+        console.log(e.keyCode)
+        setsearcQuery(val)
+        if (e.keyCode == 13) {
+            setsearcQuery(val)
+        }
+    }
+
+
+    return (
+        <>
+            <div className='w-[800px] md:w-full mx-auto mt-5'>
+                <div>
+                    <input
+                        onKeyDown={handleSearchQuery}
+                        // onChange={(e) => setsearcQuery(e.target.value)}
+                        className='border-[1.5px] w-full  px-10 py-3 focus:outline-none focus:shadow-md'
+                        type="text"
+                        placeholder='Search for restaurant and food' />
+                    <div className={'flex flex-wrap gap-4 my-5'}>
+                        {
+                            filteroption.map((data, index) => (
+
+                                <button onClick={() => handleFilterBtn(data.filterbtn)} key={index} className={`FilterBtn ${(activebtn === data.filterbtn ? 'actived' : "")}`}>
+                                    <p>{data.filterbtn}</p>
+                                </button>
+
+                            ))
+                        }
+
+                    </div>
+                    <div className='w-[800px] md:w-full bg-[#F2F3F5] grid   grid-cols-2 '>
+
+                        {
+                            activebtn === "Dishes" ?
+                                dishes.map((data) => <Dishes data={data} />)
+                                :
+                                restaurantData.map((data) => <Restaurant data={data} />)
+                        }
+                    </div>
+                </div>
+            </div>
+        </>
+    )
+}
+
+export default Search   

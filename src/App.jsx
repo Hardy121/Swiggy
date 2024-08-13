@@ -6,6 +6,7 @@ import RestaurantMenu from './components/RestaurantMenu'
 import Cart from './components/Cart'
 import { CartContaxt, Coordinate, ResInfo, Visibility } from './context/ContextAPI'
 import SignInPage from './components/SignInPage'
+import Search from './components/Search'
 
 const App = () => {
   const [resInfo, setresInfo] = useState([])
@@ -37,6 +38,7 @@ const App = () => {
                       <Route path='/' element={<Body />} />
                       <Route path='/restaurant-menu/:id' element={<RestaurantMenu />} />
                       <Route path='/cart' element={<Cart />} />
+                      <Route path='/search' element={<Search />} />
                       <Route path='*' element={<h1>comming soon........</h1>} />
                     </Route>
 

@@ -7,6 +7,7 @@ import { FaArrowRight, FaArrowLeft } from "react-icons/fa";
 import { IoIosStar } from "react-icons/io";
 import { CartContaxt, Coordinate, ResInfo } from '../context/ContextAPI';
 import toast from 'react-hot-toast';
+import ATCbtn from './ATCbtn';
 
 
 const RestaurantMenu = () => {
@@ -16,7 +17,7 @@ const RestaurantMenu = () => {
   let mainId = (id.split('-').at(-1))
 
 
-  const {resInfo , setresInfo} = useContext(ResInfo)
+  const { resInfo, setresInfo } = useContext(ResInfo)
   const [menuData, setmenuData] = useState([])
   const [discountData, setdiscountData] = useState([])
   const [topPicks, settopPicks] = useState(null)
@@ -292,7 +293,7 @@ function DetailMenuCard({ info, resInfo }) {
     name,
     defaultPrice,
     price,
-    itemAttribute: { vegClassifier },
+    itemAttribute,
     offerTags,
     ratings: { aggregatedRating: { ratingCountV2, rating } },
     description = " ",
@@ -348,7 +349,7 @@ function DetailMenuCard({ info, resInfo }) {
       <>
         <div className='flex items-center justify-between mt-5 w-full min-h-[182px]' >
           <div className='w-[70%] md:w-[60%] sm:w-[60%]' >
-            <img className='w-5 rounded-sm' src={(vegClassifier === "VEG" ? veg : noneveg)} alt="" />
+            <img className='w-5 rounded-sm' src={(itemAttribute && itemAttribute.vegClassifier === "VEG" ? veg : noneveg)} alt="" />
             <h1 className='text-lg font-semibold sm:text-base'>{name}</h1>
             <p className='text-lg font-semibold sm:text-base'>₹{defaultPrice / 100 || price / 100}</p>
             <p className='flex items-center gap-1'><IoIosStar className='text-green-700' /><span className='text-green-600'>{rating}({ratingCountV2})</span> </p>
@@ -368,7 +369,7 @@ function DetailMenuCard({ info, resInfo }) {
 
           <div className='w-[20%] md:w-[30%] sm:w-[35%]  relative h-full'>
             <img className='rounded-xl' src={"https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_300,h_300,c_fit/" + imageId} alt="" />
-            <button onClick={handleAddToCart} className='bg-white cursor-pointer text-lg border px-9 sm:px-5   absolute -bottom-5 left-1/2 -translate-x-1/2 py-1 rounded-lg  text-[#1ba672] font-bold hover:bg-[#D9DADB]'>ADD</button>
+            <ATCbtn info={info} resInfo={resInfo} handleIsDiffRes={handleIsDiffRes} />
           </div>
           <hr className='mt-5' />
         </div>

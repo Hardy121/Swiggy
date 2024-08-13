@@ -9,7 +9,7 @@ import { IoIosStar } from "react-icons/io";
 const Cart = () => {
     const { cartData, setcartData } = useContext(CartContaxt)
     const { resInfo } = useContext(ResInfo)
-    console.log(resInfo)
+    // console.log(resInfo)
 
     // console.log(cartData)
     // let totalPrice = 0;
@@ -70,7 +70,7 @@ const Cart = () => {
 
     }
 
-    console.log(resInfo)
+    // console.log(resInfo)
 
     let veg = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQh71sfIQVPk_TuhnuWB0Q1E6FlciHqRH-wRA&s";
     let noneveg = "https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Non_veg_symbol.svg/768px-Non_veg_symbol.svg.png"
@@ -82,15 +82,15 @@ const Cart = () => {
             <div className="w-full" >
                 <div className="w-[60%] md:w-[95%] mx-auto mt-4 ">
                     <Link to={`/restaurant-menu/${resInfo.id}`}>
-                    <div className='flex  gap-3'>
-                        <img className='rounded-xl aspect-square object-cover w-[110px] h-[110px]  overflow-hidden' src={"https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_300,h_300,c_fit/" + resInfo.cloudinaryImageId} alt="" />
-                        <div>
-                            <p className='font-bold text-4xl border-b-2 border-black pb-1'>{resInfo.name}</p>
-                            <p className='text-xl'>{resInfo.areaName}</p>
+                        <div className='flex  gap-3'>
+                            <img className='rounded-xl aspect-square object-cover w-[110px] h-[110px]  overflow-hidden' src={"https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_300,h_300,c_fit/" + resInfo.cloudinaryImageId} alt="" />
+                            <div>
+                                <p className='font-bold text-4xl border-b-2 border-black pb-1'>{resInfo.name}</p>
+                                <p className='text-xl'>{resInfo.areaName}</p>
+                            </div>
                         </div>
-                    </div>
 
-                    <hr className='my-5' />
+                        <hr className='my-5' />
 
                     </Link>
                     {
@@ -98,7 +98,7 @@ const Cart = () => {
                             name,
                             defaultPrice,
                             price,
-                            itemAttribute: { vegClassifier },
+                            itemAttribute,
                             offerTags,
                             ratings: { aggregatedRating: { ratingCountV2, rating } },
                             description,
@@ -107,7 +107,7 @@ const Cart = () => {
                             <>
                                 <div className='flex items-center justify-between mt-5 w-full min-h-[182px]' >
                                     <div className='w-[70%] sm:w-[65%]'>
-                                        <img className='w-5 rounded-sm' src={(vegClassifier === "VEG" ? veg : noneveg)} alt="" />
+                                        <img className='w-5 rounded-sm' src={(itemAttribute && itemAttribute.vegClassifier === "VEG" ? veg : noneveg)} alt="" />
                                         <h1 className='text-lg font-semibold'>{name}</h1>
                                         <p className='text-lg font-semibold'>₹{defaultPrice / 100 || price / 100}</p>
                                         <p className='flex items-center gap-1'><IoIosStar className='text-green-700' /><span className='text-green-600'>{rating}({ratingCountV2})</span> </p>
@@ -125,8 +125,8 @@ const Cart = () => {
                     }
                     <h1 className='font-bold text-xl'>Total Price : ₹{totalPrice}</h1>
                     <div className='flex justify-between'>
-                        <button onClick={handlePlaceOrder} className="p-3 bg-green-600 my-5 rounded-lg hover:bg-green-700 text-white" >Place order</button>
-                        <button onClick={handleClearCart} className="p-3 bg-green-600 my-5 rounded-lg hover:bg-green-700 text-white" >Clear cart</button>
+                        <button onClick={handlePlaceOrder} className="p-3 px-6 bg-green-600 my-5  hover:bg-green-700 text-white" >Place order</button>
+                        <button onClick={handleClearCart} className="p-3 px-6 bg-[#F75002] my-5  hover:bg-[#f75002d3] text-white"  >Clear cart</button>
                     </div>
                 </div>
             </div>

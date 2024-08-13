@@ -23,7 +23,7 @@ const Body = () => {
         setTopResTitle(result?.data.cards[1]?.card?.card?.header?.title)
         setDlvTitle(result?.data.cards[2]?.card?.card?.title)
         setdata(result.data)
-        console.log(result.data)
+        // console.log(result.data)
     }
 
     useEffect(() => {

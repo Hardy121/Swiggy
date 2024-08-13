@@ -297,36 +297,12 @@ function DetailMenuCard({ info, resInfo }) {
     offerTags,
     ratings: { aggregatedRating: { ratingCountV2, rating } },
     description = " ",
-    imageId
+    imageId,
   } = info
 
 
   const { cartData, setcartData } = useContext(CartContaxt)
 
-  function handleAddToCart() {
-
-    const isadded = cartData.find((data) => data.id === info.id)
-    let getResInfoFromLocalStorage = JSON.parse(localStorage.getItem("resInfo")) || []
-    if (!isadded) {
-      if (getResInfoFromLocalStorage.name === resInfo.name || getResInfoFromLocalStorage.length === 0) {
-        setcartData((prev) => [...prev, info]) // items add thashe ane previous items remove ny thay 
-        localStorage.setItem("cartData", JSON.stringify([...cartData, info]));
-        localStorage.setItem("resInfo", JSON.stringify(resInfo));
-        toast.success("Food added to the cart")
-      }
-      else {
-
-        toast.error("Different restaurant")
-        setisDiffRes((prev) => !prev)
-
-      }
-
-    }
-    else {
-      toast.error("Already added to the cart")
-    }
-
-  }
 
   const [isDiffRes, setisDiffRes] = useState(false)
   function handleIsDiffRes() {

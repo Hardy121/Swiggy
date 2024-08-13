@@ -67,13 +67,15 @@ const Search = () => {
     return (
         <>
             <div className='w-[800px] md:w-full mx-auto mt-5'>
-                <div>
-                    <input
-                        onKeyDown={handleSearchQuery}
-                        // onChange={(e) => setsearcQuery(e.target.value)}
-                        className='border-[1.5px] w-full  px-10 py-3 focus:outline-none focus:shadow-md'
-                        type="text"
-                        placeholder='Search for restaurant and food' />
+                <div className=' '>
+                    <div className='md:px-10'>
+                        <input
+                            onKeyDown={handleSearchQuery}
+                            // onChange={(e) => setsearcQuery(e.target.value)}
+                            className='border-[1.5px] w-full px-10 py-3 focus:outline-none focus:shadow-md'
+                            type="text"
+                            placeholder='Search for restaurant and food' />
+                    </div>
                     <div className={'flex flex-wrap gap-4 my-5'}>
                         {
                             filteroption.map((data, index) => (
@@ -86,7 +88,7 @@ const Search = () => {
                         }
 
                     </div>
-                    <div className='w-[800px] md:w-full bg-[#F2F3F5] grid   grid-cols-2 '>
+                    <div className='w-[800px] md:w-full bg-[#F2F3F5] grid md:grid-cols-1   grid-cols-2 '>
 
                         {
                             activebtn === "Dishes" ?

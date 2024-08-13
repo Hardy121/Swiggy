@@ -44,8 +44,8 @@ const Cart = () => {
     }
     function handleClearCart() {
         setcartData([])
-        localStorage.clear()
         toast.success("Cart is cleared")
+        localStorage.clear()
 
     }
     const userData = useSelector((state) => state.authSlice.userData)

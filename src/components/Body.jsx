@@ -17,6 +17,8 @@ const Body = () => {
 
     async function fetchData() {
         const data = await fetch(`https://www.swiggy.com/dapi/restaurants/list/v5?lat=${lat}&lng=${lng}&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING`)
+        // const other = await fetch(`https://www.swiggy.com/dapi/restaurants/search/v3?lat=${lat}&lng=${lng}&str=Pizza&trackingId=undefined&submitAction=ENTER&queryUniqueId=abce1bbd-a947-b031-e331-a8001a925e5e&selectedPLTab=RESTAURANT`)
+        // const otherresult = await other.json()
         const result = await data.json();
         setTopRestaurantData(result?.data.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants)
         setOnYourMindData(result?.data.cards[0]?.card?.card?.imageGridCards?.info)

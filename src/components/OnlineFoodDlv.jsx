@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 import { setFilterValue } from '../utils/filterSlice';
 
 const OnlineFoodDlv = ({ data, DlvResTitle }) => {
-
+    const dispatch = useDispatch()
     const [activebtn, setactivebtn] = useState(null)
     const filteroption = [
         {
@@ -26,7 +26,7 @@ const OnlineFoodDlv = ({ data, DlvResTitle }) => {
 
     ]
 
-    const dispatch = useDispatch()
+
     function handleFilterBtn(filterbtn) {
         setactivebtn(activebtn === filterbtn ? null : filterbtn)
     }

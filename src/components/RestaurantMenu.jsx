@@ -30,17 +30,28 @@ const RestaurantMenu = () => {
   async function fetchmenu() {
     let data = await fetch(`https://www.swiggy.com/dapi/menu/pl?page-type=REGULAR_MENU&complete-menu=true&lat=${lat}&lng=${lng}&restaurantId=${mainId}&catalog_qa=undefined&submitAction=ENTER`);
     let res = await data.json();
-    // console.log(res?.data?.cards[4]?.groupedCard?.cardGroupMap?.REGULAR?.cards[1]?.card?.card)
-    setresInfo(res?.data?.cards[2]?.card?.card?.info)
-    setdiscountData(res?.data?.cards[3]?.card?.card?.gridElements?.infoWithStyle?.offers)
-    // console.log(res?.data?.cards[4]?.groupedCard?.cardGroupMap?.REGULAR)
-    let actualMenu = (res?.data?.cards[4]?.groupedCard?.cardGroupMap?.REGULAR?.cards).filter
-      (data => data?.card?.card?.itemCards || data?.card?.card?.categories)
-    // console.log(actualMenu);
-    setmenuData(actualMenu)
+
+    // console.log(res)
+    const resInfo = res?.data?.cards.find((data) =>
+      data?.card?.card?.["@type"].includes("food.v2.Restaurant"))?.card?.card?.info
+    // console.log(resInfo)
+
+    const DiscountInfo = res?.data?.cards.find((data) =>
+      data?.card?.card?.["@type"].includes("v2.GridWidget"))?.card?.card?.gridElements?.infoWithStyle?.offers
+
+    setresInfo(resInfo)
+    setdiscountData(DiscountInfo)
+
+    let actualMenu = res?.data?.cards.find((data) => data?.groupedCard)
+    // console.log(actualMenu)
+    setmenuData(actualMenu?.groupedCard?.cardGroupMap?.REGULAR?.cards.filter((data) => data?.card?.card?.itemCards || data?.card?.card?.categories))
+
+
+
+
     // settopPicks()
 
-    settopPicks((res?.data?.cards[4]?.groupedCard?.cardGroupMap?.REGULAR?.cards).filter((data) => data.card.card.title == "Top Picks")[0])
+    settopPicks((actualMenu?.groupedCard?.cardGroupMap?.REGULAR?.cards).filter((data) => data.card.card.title == "Top Picks")[0])
   }
 
   useEffect(() => {

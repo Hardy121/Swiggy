@@ -5,6 +5,8 @@ import Dishes from './Dishes'
 import Restaurant from './Restaurant'
 import { RiArrowLeftSLine } from "react-icons/ri";
 import { RiSearch2Line } from "react-icons/ri";
+import { useDispatch, useSelector } from 'react-redux'
+import { resetSimilarResDish, toggleIsSimilarDishes } from '../utils/toogleSlice'
 
 
 const Search = () => {
@@ -12,6 +14,9 @@ const Search = () => {
     const [searcQuery, setsearcQuery] = useState("")
     const [dishes, setdishes] = useState([])
     const [restaurantData, setrestaurantData] = useState([])
+    const [selectedResDish, setSelectedResDish] = useState(null)
+    const [similarResDishes, setSimilarResDishes] = useState([])
+
 
     const { coord: { lat, lng } } = useContext(Coordinate)
 
@@ -48,10 +53,41 @@ const Search = () => {
         setrestaurantData(finalData)
     }
 
+
+    const { isSimilarResDishes, city, resLocation, resId, itemId } = useSelector((state) => state.toogleSlice.similarResDish)
+    console.log({isSimilarResDishes, city, resLocation, resId, itemId})
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        if (isSimilarResDishes) {
+            fetchSimilarResDishes()
+        }
+    }, [isSimilarResDishes])
+
+
+    async function fetchSimilarResDishes() {
+
+        let pathName = `/city${city}/${resLocation}`
+        let encodedpath = encodeURIComponent(pathName)
+        console.log(encodedpath)
+
+        let data = await fetch(`https://www.swiggy.com/dapi/restaurants/search/v3?lat=${lat}&lng=${lng}&str=${searcQuery}&trackingId=undefined&submitAction=ENTER&selectedPLTab=dish-add&restaurantMenuUrl=${encodedpath}-rest${resId}%3Fquery%3D${searcQuery}&restaurantIdOfAddedItem=${resId}&itemAdded=${itemId}`)
+        let res = await data.json()
+
+        // console.log(res?.data?.cards[1])
+        setSelectedResDish(res?.data?.cards[1])
+
+        // console.log(res?.data?.cards[2]?.card?.card?.cards)
+        setSimilarResDishes(res?.data?.cards[2]?.card?.card?.cards)
+
+        dispatch(resetSimilarResDish())
+    }
+
     useEffect(() => {
         if (searcQuery == "") {
             return
         }
+        // setsearcQuery("")
         fetchfood(),
             fetchrestaurant()
     }, [searcQuery])
@@ -59,10 +95,13 @@ const Search = () => {
     let x = ""
     function handleSearchQuery(e) {
         let val = e.target.value
-        console.log(e.keyCode)
+        // console.log(e.keyCode)
         setsearcQuery(val)
         if (e.keyCode == 13) {
+
             setsearcQuery(val)
+            setSelectedResDish(null)
+            setdishes([])
         }
     }
 
@@ -85,25 +124,42 @@ const Search = () => {
                         <RiSearch2Line className='cursor-pointer absolute right-5 top-1/2 -translate-y-1/2  text-xl m' />
 
                     </div>
-                    <div className={'flex flex-wrap gap-4 my-5'}>
+
+                    {!selectedResDish &&
+
+                        <div className={'flex flex-wrap gap-4 my-5'}>
+                            {
+                                filteroption.map((data, index) => (
+
+                                    <button onClick={() => handleFilterBtn(data.filterbtn)} key={index} className={`FilterBtn ${(activebtn === data.filterbtn ? 'actived2' : "")} `}>
+                                        <p>{data.filterbtn}</p>
+                                    </button>
+
+                                ))
+                            }
+
+                        </div>
+                    }
+
+                    <div className='w-[800px] md:w-full mt-4 bg-[#F2F3F5] grid md:grid-cols-1   grid-cols-2 '>
+
                         {
-                            filteroption.map((data, index) => (
+                            selectedResDish ?
+                                <>
+                                    <div>
+                                        <p className='p-4 text-md font-semibold'>Item added to cart</p>
+                                        <Dishes data={selectedResDish.card.card} />
+                                        <p className='p-4 text-md font-semibold'>More dishes from this restaurant</p> </div><br />
 
-                                <button onClick={() => handleFilterBtn(data.filterbtn)} key={index} className={`FilterBtn ${(activebtn === data.filterbtn ? 'actived2' : "")} `}>
-                                    <p>{data.filterbtn}</p>
-                                </button>
-
-                            ))
-                        }
-
-                    </div>
-                    <div className='w-[800px] md:w-full bg-[#F2F3F5] grid md:grid-cols-1   grid-cols-2 '>
-
-                        {
-                            activebtn === "Dishes" ?
-                                dishes.map((data) => <Dishes data={data} />)
+                                    {
+                                        similarResDishes.map((data) => <Dishes data={{ ...data.card, restaurant: selectedResDish.card.card.restaurant }} />)
+                                    }
+                                </>
                                 :
-                                restaurantData.map((data) => <Restaurant data={data} />)
+                                activebtn === "Dishes" ?
+                                    dishes.map((data) => <Dishes data={data.card.card} />)
+                                    :
+                                    restaurantData.map((data) => <Restaurant data={data} />)
                         }
                     </div>
                 </div>

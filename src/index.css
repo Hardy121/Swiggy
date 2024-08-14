@@ -2,31 +2,74 @@
 @tailwind components;
 @tailwind utilities;
 
-.FilterBtn{
-    border:1px solid #D9DADB;
-    padding:5px 15px;
-    border-radius:20px;
-    font-size:14px;
-    color:  rgba(2, 6, 12, 0.75);
-    font-weight:500;
+.FilterBtn {
+    border: 1px solid #D9DADB;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 14px;
+    color: rgba(2, 6, 12, 0.75);
+    font-weight: 500;
     display: flex;
     align-items: center;
-    gap:3px;
+    gap: 3px;
 }
-.actived{
+
+.actived {
     background-color: #D9DADB;
-    border:1px solid;
+    border: 1px solid;
 }
-.actived .crossed{
+
+.actived .crossed {
     display: block;
 }
-body{
+
+body {
     overflow-x: hidden;
 }
 
-.actived2{
+.actived2 {
     background-color: #3E4152;
-    border:1px solid #3E4152;
-    color:white;
+    border: 1px solid #3E4152;
+    color: white;
 
+}
+
+
+
+.loader {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: inline-block;
+    border-top: 3px solid #FFF;
+    border-right: 3px solid transparent;
+    box-sizing: border-box;
+    animation: rotation 1s linear infinite;
+    padding: 30px;
+}
+
+@keyframes rotation {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.animate {
+   
+    background-image: linear-gradient(to right bottom, #fcfcfc, #f7f7f7, #f2f1f2, #edecec, #e8e6e7, #e5e4e4, #e3e1e2, #e0dfdf, #dfdfdf, #dfdfdf, #dedede, #dedede);
+    background-size: 200% 200%;
+    animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+    from {
+        background-position: top left;
+    }
+    to {
+        background-position: bottom right;
+    }
 }

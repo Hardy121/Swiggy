@@ -5,6 +5,7 @@ import OnlineFoodDlv from './OnlineFoodDlv'
 import { Coordinate } from '../context/ContextAPI'
 import { useSelector } from 'react-redux'
 import filterSlice from '../utils/filterSlice'
+import Shimmer from './Shimmer'
 const Body = () => {
 
     const { coord: { lat, lng } } = useContext(Coordinate)
@@ -16,7 +17,7 @@ const Body = () => {
 
 
     async function fetchData() {
-        const data = await fetch(`https://www.swiggy.com/dapi/restaurants/list/v5?lat=${lat}&lng=${lng}&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING`)
+        const data = await fetch(`https://cors-by-codethread-for-swiggy.vercel.app/cors/dapi/restaurants/list/v5?lat=${lat}&lng=${lng}&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING`)
         // const other = await fetch(`https://www.swiggy.com/dapi/restaurants/search/v3?lat=${lat}&lng=${lng}&str=Pizza&trackingId=undefined&submitAction=ENTER&queryUniqueId=abce1bbd-a947-b031-e331-a8001a925e5e&selectedPLTab=RESTAURANT`)
         // const otherresult = await other.json()
         const result = await data.json();
@@ -39,6 +40,7 @@ const Body = () => {
         let data2 = result?.data.cards.find((data) => data?.card?.card?.id == "whats_on_your_mind"
         )?.card?.card?.imageGridCards?.info
         setOnYourMindData(data2)
+        console.log(data2)
         // console.log(result)
         // console.log(data2 , mainData)
 
@@ -78,15 +80,20 @@ const Body = () => {
     return (<>
 
         <div className="w-full">
-            <div className="mx-auto md:w-full md:px-5 w-[75%] sm:px-2   mt-3 overflow-hidden">
-                {OnYourMindData  && (
-                    <>
-                        < OnMind data={OnYourMindData} />
-                        <TopRestaurant data={TopRestaurantData} TopResTitle={TopResTitle} />
-                    </>
-                ) }
-                <OnlineFoodDlv data={filterVal ? filterdData : TopRestaurantData} DlvResTitle={DlvResTitle} />
-            </div>
+
+            {
+                TopRestaurantData.length ? (<div className="mx-auto md:w-full md:px-5 w-[75%] sm:px-2   mt-3 overflow-hidden">
+                    {OnYourMindData && (
+                        <>
+                            < OnMind data={OnYourMindData} />
+                            <TopRestaurant data={TopRestaurantData} TopResTitle={TopResTitle} />
+                        </>
+                    )}
+                    <OnlineFoodDlv data={filterVal ? filterdData : TopRestaurantData} DlvResTitle={DlvResTitle} />
+                </div>) : <Shimmer />
+            }
+
+
 
         </div>
 

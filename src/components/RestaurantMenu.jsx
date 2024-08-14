@@ -8,6 +8,7 @@ import { IoIosStar } from "react-icons/io";
 import { CartContaxt, Coordinate, ResInfo } from '../context/ContextAPI';
 import toast from 'react-hot-toast';
 import ATCbtn from './ATCbtn';
+import MenuShimmer from './MenuShimmer'
 
 
 const RestaurantMenu = () => {
@@ -28,7 +29,7 @@ const RestaurantMenu = () => {
   // console.log(menuData)
 
   async function fetchmenu() {
-    let data = await fetch(`https://www.swiggy.com/dapi/menu/pl?page-type=REGULAR_MENU&complete-menu=true&lat=${lat}&lng=${lng}&restaurantId=${mainId}&catalog_qa=undefined&submitAction=ENTER`);
+    let data = await fetch(`https://cors-by-codethread-for-swiggy.vercel.app/cors/dapi/menu/pl?page-type=REGULAR_MENU&complete-menu=true&lat=${lat}&lng=${lng}&restaurantId=${mainId}&catalog_qa=undefined&submitAction=ENTER`);
     let res = await data.json();
 
     // console.log(res)
@@ -78,106 +79,64 @@ const RestaurantMenu = () => {
   return (
     <div className='w-full relative'>
 
-
-      <div className="mx-auto w-[750px] md:w-[95%]">
-        <p className='py-8 text-[12px]  text-slate-500 cursor-pointer'><Link to='/'> <span className='hover:text-slate-900 '>Home  </span></Link> / <Link to='/'> <span className='hover:text-slate-900 '>{resInfo?.city}</span> </Link>   / <span className='text-slate-700'>{resInfo?.name}</span></p>
-        <h1 className='font-bold pl-3 text-2xl'>{resInfo.name}</h1>
-
-
-
-
-        <div className='w-full h-[206px]  bg-gradient-to-t from-[#DCDCE4]/70 mt-3 px-4 pb-4 rounded-[40px]'>
-
-          {/*              restaurant details start from  here                 */}
+      {
+        menuData.length ?
+          <div className="mx-auto w-[750px] md:w-[95%]">
+            <p className='py-8 text-[12px]  text-slate-500 cursor-pointer'><Link to='/'> <span className='hover:text-slate-900 '>Home  </span></Link> / <Link to='/'> <span className='hover:text-slate-900 '>{resInfo?.city}</span> </Link>   / <span className='text-slate-700'>{resInfo?.name}</span></p>
+            <h1 className='font-bold pl-3 text-2xl'>{resInfo.name}</h1>
 
 
-          <div className='w-full border border-[#DCDCE4]/70 h-full rounded-[30px] bg-white'>
-            <div className=' p-4'>
-              <div className='flex items-center gap-1 font-bold'>
-                <MdStars className='text-green-600' />
-                <span>{resInfo.avgRating}</span>
-                <span>({resInfo.totalRatingsString})</span>
-                <span> . {resInfo.costForTwoMessage}</span>
-              </div>
-              <p className='text-[#ff5200] text-sm font-bold underline'>{resInfo?.cuisines?.join(', ')}</p>
-              <div className='mt-3' >
-                <div className='flex gap-2'>
-                  <div className='w-[9px] flex flex-col justify-center items-center'>
-                    <div className='w-[7px] h-[7px] bg-gray-500 rounded-full'></div>
-                    <div className='w-[1px] h-[25px] bg-gray-500'></div>
-                    <div className='w-[7px] h-[7px] bg-gray-500 rounded-full'></div>
+
+
+            <div className='w-full h-[206px]  bg-gradient-to-t from-[#DCDCE4]/70 mt-3 px-4 pb-4 rounded-[40px]'>
+
+              {/*              restaurant details start from  here                 */}
+
+
+              <div className='w-full border border-[#DCDCE4]/70 h-full rounded-[30px] bg-white'>
+                <div className=' p-4'>
+                  <div className='flex items-center gap-1 font-bold'>
+                    <MdStars className='text-green-600' />
+                    <span>{resInfo.avgRating}</span>
+                    <span>({resInfo.totalRatingsString})</span>
+                    <span> . {resInfo.costForTwoMessage}</span>
                   </div>
-                  <div className=' text-sm gap-2 flex flex-col font-semibold'>
-                    <div className='flex  gap-2'>
-                      <p>Outlet</p>
-                      <span className='text-gray-500 font-normal'>{resInfo.areaName}</span>
+                  <p className='text-[#ff5200] text-sm font-bold underline'>{resInfo?.cuisines?.join(', ')}</p>
+                  <div className='mt-3' >
+                    <div className='flex gap-2'>
+                      <div className='w-[9px] flex flex-col justify-center items-center'>
+                        <div className='w-[7px] h-[7px] bg-gray-500 rounded-full'></div>
+                        <div className='w-[1px] h-[25px] bg-gray-500'></div>
+                        <div className='w-[7px] h-[7px] bg-gray-500 rounded-full'></div>
+                      </div>
+                      <div className=' text-sm gap-2 flex flex-col font-semibold'>
+                        <div className='flex  gap-2'>
+                          <p>Outlet</p>
+                          <span className='text-gray-500 font-normal'>{resInfo.areaName}</span>
+                        </div>
+                        <p className='text-sm'>{resInfo?.sla?.slaString}</p>
+                      </div>
                     </div>
-                    <p className='text-sm'>{resInfo?.sla?.slaString}</p>
+                  </div>
+                </div>
+                <hr />
+                <div className='p-4 '>
+                  <div className='flex items-center'>
+                    <img className='w-6' src={`https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_40,h_40/${resInfo.feeDetails?.icon}`} alt="" />
+                    <span className='ml-3 sm:text-sm  '>Order Above 149 for discounted delivery fee</span>
+
                   </div>
                 </div>
               </div>
-            </div>
-            <hr />
-            <div className='p-4 '>
-              <div className='flex items-center'>
-                <img className='w-6' src={`https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_40,h_40/${resInfo.feeDetails?.icon}`} alt="" />
-                <span className='ml-3 sm:text-sm  '>Order Above 149 for discounted delivery fee</span>
 
-              </div>
-            </div>
-          </div>
-
-          {/*              restaurant details ends here                 */}
+              {/*              restaurant details ends here                 */}
 
 
-          {/*             Deals for you start from here                 */}
+              {/*             Deals for you start from here                 */}
 
-          <div className='w-full relative'>
-            <div className='flex justify-between mt-8'>
-              <h1 className='text-xl font-bold'>Deals  for you</h1>
-              <div className='flex gap-2 '>
-                <div onClick={handlePrev} className={`cursor-pointer rounded-full w-9 h-9 flex justify-center items-center bg-gray-200 ` + (value <= 0 ? "bg-gray-100" : "text-gray-200")}>
-                  <FaArrowLeft className={value <= 0 ? " text-gray-300" : "text-gray-800"} />
-                </div>
-                <div onClick={handleNext} className={`cursor-pointer rounded-full w-9 h-9 flex justify-center items-center bg-gray-200 ` + (value >= 124 ? "bg-gray-100" : "text-gray-200")}>
-                  <FaArrowRight className={value >= 124 ? " text-gray-300" : "text-gray-800"} />
-                </div>
-              </div>
-            </div>
-
-            <div className='flex overflow-hidden gap-4 mt-4 '>
-              {
-
-                discountData.map((data) => (
-
-                  <Discount data={data} />
-                ))
-
-              }
-            </div>
-
-            {/*             Deals for you End from here                 */}
-
-
-
-
-            <div className="text-center mt-5 font-semibold text-gray-500 text-sm">
-              M E N U
-            </div>
-
-            <div className="w-full cursor-pointer relative bg-[#F2F2F3] p-4 rounded-xl text-lg text-gray-500 font-semibold  text-center mt-5">
-              Search for fishes
-              < FiSearch className='absolute top-5 right-5 text-2xl z-1' />
-            </div>
-
-
-            {/*             Top picks  start from here                 */}
-
-            {
-              topPicks &&
-              <div className='w-full overflow-hidden'>
+              <div className='w-full relative'>
                 <div className='flex justify-between mt-8'>
-                  <h1 className='text-xl font-bold'>{topPicks.card.card.title}</h1>
+                  <h1 className='text-xl font-bold'>Deals  for you</h1>
                   <div className='flex gap-2 '>
                     <div onClick={handlePrev} className={`cursor-pointer rounded-full w-9 h-9 flex justify-center items-center bg-gray-200 ` + (value <= 0 ? "bg-gray-100" : "text-gray-200")}>
                       <FaArrowLeft className={value <= 0 ? " text-gray-300" : "text-gray-800"} />
@@ -187,47 +146,93 @@ const RestaurantMenu = () => {
                     </div>
                   </div>
                 </div>
+
                 <div className='flex overflow-hidden gap-4 mt-4 '>
                   {
 
-                    topPicks.card.card.carousel.map(({ creativeId, dish: { info: { defaultPrice, price } } }) => (
-                      <div className=' relative min-w-[254px] h-[264px]'>
-                        <img className='w-full h-full ' src={"https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_292,h_300/" + creativeId} alt="" />
-                        <div className='absolute bottom-0 text-white flex justify-between w-full p-3'>
-                          <p>₹{defaultPrice / 100 || price / 100}</p>
-                          <button className='bg-white cursor-pointer text-lg border px-9  rounded-lg  text-[#1ba672] font-bold hover:bg-[#D9DADB]'>ADD</button>
-                        </div>
-                      </div>
-                      // <Discount data={data} /> 
+                    discountData.map((data) => (
+
+                      <Discount data={data} />
                     ))
 
                   }
                 </div>
 
+                {/*             Deals for you End from here                 */}
+
+
+
+
+                <div className="text-center mt-5 font-semibold text-gray-500 text-sm">
+                  M E N U
+                </div>
+
+                <div className="w-full cursor-pointer relative bg-[#F2F2F3] p-4 rounded-xl text-lg text-gray-500 font-semibold  text-center mt-5">
+                  Search for fishes
+                  < FiSearch className='absolute top-5 right-5 text-2xl z-1' />
+                </div>
+
+
+                {/*             Top picks  start from here                 */}
+
+                {
+                  topPicks &&
+                  <div className='w-full overflow-hidden'>
+                    <div className='flex justify-between mt-8'>
+                      <h1 className='text-xl font-bold'>{topPicks.card.card.title}</h1>
+                      <div className='flex gap-2 '>
+                        <div onClick={handlePrev} className={`cursor-pointer rounded-full w-9 h-9 flex justify-center items-center bg-gray-200 ` + (value <= 0 ? "bg-gray-100" : "text-gray-200")}>
+                          <FaArrowLeft className={value <= 0 ? " text-gray-300" : "text-gray-800"} />
+                        </div>
+                        <div onClick={handleNext} className={`cursor-pointer rounded-full w-9 h-9 flex justify-center items-center bg-gray-200 ` + (value >= 124 ? "bg-gray-100" : "text-gray-200")}>
+                          <FaArrowRight className={value >= 124 ? " text-gray-300" : "text-gray-800"} />
+                        </div>
+                      </div>
+                    </div>
+                    <div className='flex overflow-hidden gap-4 mt-4 '>
+                      {
+
+                        topPicks.card.card.carousel.map(({ creativeId, dish: { info: { defaultPrice, price } } }) => (
+                          <div className=' relative min-w-[254px] h-[264px]'>
+                            <img className='w-full h-full ' src={"https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_292,h_300/" + creativeId} alt="" />
+                            <div className='absolute bottom-0 text-white flex justify-between w-full p-3'>
+                              <p>₹{defaultPrice / 100 || price / 100}</p>
+                              <button className='bg-white cursor-pointer text-lg border px-9  rounded-lg  text-[#1ba672] font-bold hover:bg-[#D9DADB]'>ADD</button>
+                            </div>
+                          </div>
+                          // <Discount data={data} /> 
+                        ))
+
+                      }
+                    </div>
+
+                  </div>
+                }
+                {/*             Top picks  end from here                 */}
+
+
+
+
+                {/*             recomanded and other menus start from here                */}
+
+
+
+                <div className='mt-5'>
+                  {menuData.map(({ card: { card } }) => (
+                    <Menucard card={card} resInfo={resInfo} />))}
+                </div>
+
+
+
+
               </div>
-            }
-            {/*             Top picks  end from here                 */}
 
 
-
-
-            {/*             recomanded and other menus start from here                */}
-
-
-
-            <div className='mt-5'>
-              {menuData.map(({ card: { card } }) => (
-                <Menucard card={card} resInfo={resInfo} />))}
             </div>
-
-
-
-
           </div>
-
-
-        </div>
-      </div>
+          :   
+          <MenuShimmer/>
+}
     </div>
   )
 }

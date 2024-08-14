@@ -43,7 +43,7 @@ const OnMind = ({data = []}) => {
             <div style={{ translate: `-${value}%` }} className={`mt-4 flex gap-1 duration-500 `}>
                 {
                     data.map((item) => (
-                        <img key={item.id} className='w-40' src={`https://media-assets.swiggy.com/swiggy/image/upload/${item?.imageId}`} alt=""  />
+                        <img key={item.id} className='w-40' src={`https://cors-by-codethread-for-swiggy.vercel.app/cors/swiggy/image/upload/${item?.imageId}`} alt=""  />
                     ))
                 }
                 

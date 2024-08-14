@@ -80,7 +80,7 @@ const Head = () => {
 
     async function searchresultFunc(val) {
         if (val == "") return
-        const res = await fetch(`https://www.swiggy.com/dapi/misc/place-autocomplete?input=${val}`)
+        const res = await fetch(`https://cors-by-codethread-for-swiggy.vercel.app/cors/dapi/misc/place-autocomplete?input=${val}`)
         const data = await res.json()
         setsearchresult(data.data)
     }
@@ -92,7 +92,7 @@ const Head = () => {
 
     async function fetchLatandLon(id) {
         if (id == "") return
-        const res = await fetch(`https://www.swiggy.com/dapi/misc/address-recommend?place_id=${id}`)
+        const res = await fetch(`https://cors-by-codethread-for-swiggy.vercel.app/cors/dapi/misc/address-recommend?place_id=${id}`)
         const data = await res.json()
         // setsearchresult(data.data):
         setcoord({

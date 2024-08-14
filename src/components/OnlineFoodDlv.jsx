@@ -36,11 +36,11 @@ const OnlineFoodDlv = ({ data, DlvResTitle }) => {
         <>
             <div className='text-2xl font-bold'>{DlvResTitle}</div>
 
-            <div className={'flex flex-wrap gap-4 my-5'}>
+            <div  className={'flex flex-wrap gap-4 my-5'}>
                 {
                     filteroption.map((data, index) => (
 
-                        <button onClick={() => handleFilterBtn(data.filterbtn)} key={index} className={`FilterBtn ${(activebtn === data.filterbtn ? 'actived' : "")}`}>
+                        <button key={index} onClick={() => handleFilterBtn(data.filterbtn)}  className={`FilterBtn ${(activebtn === data.filterbtn ? 'actived' : "")}`}>
                             <p>{data.filterbtn}</p>
                             <IoCloseOutline className='mt-[1.5px] font-bold text-lg hidden crossed' />
                         </button>

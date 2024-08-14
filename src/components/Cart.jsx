@@ -105,7 +105,7 @@ const Cart = () => {
                             imageId
                         }, index) => (
                             <>
-                                <div className='flex items-center justify-between mt-5 w-full min-h-[182px]' >
+                                <div key={imageId} className='flex items-center justify-between mt-5 w-full min-h-[182px]' >
                                     <div className='w-[70%] sm:w-[65%]'>
                                         <img className='w-5 rounded-sm' src={(itemAttribute && itemAttribute.vegClassifier === "VEG" ? veg : noneveg)} alt="" />
                                         <h1 className='text-lg font-semibold'>{name}</h1>

@@ -18,8 +18,8 @@ const MenuShimmer = () => {
                 <div className='w-full'>
 
                     {
-                        Array(10).fill("").map((data) => <div className='w-full h-40 flex justify-between mt-5'>
-                            <div className='w-[60%] h-full'>
+                        Array(10).fill("").map((data,index) => <div className='w-full h-40 flex justify-between mt-5'>
+                            <div key={index} className='w-[60%] h-full'>
                                 <div className='h-5 my-4 rounded-sm w-full animate'></div>
                                 <div className='h-5 my-4 rounded-sm w-[75%] animate'></div>
                                 <div className='h-5 my-4 rounded-sm w-1/2 animate'></div>

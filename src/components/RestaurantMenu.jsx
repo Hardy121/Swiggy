@@ -29,7 +29,7 @@ const RestaurantMenu = () => {
   // console.log(menuData)
 
   async function fetchmenu() {
-    let data = await fetch(`https://cors-by-codethread-for-swiggy.vercel.app/cors/dapi/menu/pl?page-type=REGULAR_MENU&complete-menu=true&lat=${lat}&lng=${lng}&restaurantId=${mainId}&catalog_qa=undefined&submitAction=ENTER`);
+    let data = await fetch(`${import.meta.env.VITE_BASE_URL}/menu/pl?page-type=REGULAR_MENU&complete-menu=true&lat=${lat}&lng=${lng}&restaurantId=${mainId}&catalog_qa=undefined&submitAction=ENTER`);
     let res = await data.json();
 
     // console.log(res)
@@ -150,9 +150,9 @@ const RestaurantMenu = () => {
                 <div className='flex overflow-hidden gap-4 mt-4 '>
                   {
 
-                    discountData.map((data) => (
+                    discountData.map((data , index) => (
 
-                      <Discount data={data} />
+                      <Discount key={index} data={data} />
                     ))
 
                   }
@@ -192,8 +192,8 @@ const RestaurantMenu = () => {
                     <div className='flex overflow-hidden gap-4 mt-4 '>
                       {
 
-                        topPicks.card.card.carousel.map(({ creativeId, dish: { info: { defaultPrice, price } } }) => (
-                          <div className=' relative min-w-[254px] h-[264px]'>
+                        topPicks.card.card.carousel.map(({ creativeId, dish: { info: { defaultPrice, price } } }, index) => (
+                          <div key={index} className=' relative min-w-[254px] h-[264px]'>
                             <img className='w-full h-full ' src={"https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_292,h_300/" + creativeId} alt="" />
                             <div className='absolute bottom-0 text-white flex justify-between w-full p-3'>
                               <p>₹{defaultPrice / 100 || price / 100}</p>
@@ -218,8 +218,8 @@ const RestaurantMenu = () => {
 
 
                 <div className='mt-5'>
-                  {menuData.map(({ card: { card } }) => (
-                    <Menucard card={card} resInfo={resInfo} />))}
+                  {menuData.map(({ card: { card } } , index) => (
+                    <Menucard key={index} card={card} resInfo={resInfo} />))}
                 </div>
 
 
@@ -278,8 +278,8 @@ function Menucard({ card, resInfo }) {
       <div>
         <h1 className='text-xl font-semibold mt-3'>{title}</h1>
         {
-          categories.map(data => (
-            <div className=''>
+          categories.map((data, index) => (
+            <div className='' key={index}>
               <Menucard card={data} resInfo={resInfo} />
             </div>
           ))
@@ -295,8 +295,8 @@ function DetailMenu({ itemCards, resInfo }) {
   return (
     <div>
       {
-        itemCards.map(({ card: { info } }) => (
-          <DetailMenuCard info={info} resInfo={resInfo} />
+        itemCards.map(({ card: { info } } , index) => (
+          <DetailMenuCard key={index} info={info} resInfo={resInfo} />
         ))
       }
     </div>

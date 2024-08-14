@@ -13,7 +13,7 @@ const Shimmer = () => {
         </div>
         <div className='w-[70%] mx-auto md:w-[full] grid grid-cols-3 gap-10 '>
           {
-            Array(10).fill("").map((data) => <div>
+            Array(10).fill("").map((data , index) => <div key={index}>
               <div className='mt-3 w-[295px] h-[182px] xs:min-w-[200px] xs:h-[150px] bg-[#D9DADB] rounded-md animate '></div>
               <div className='mt-3 w-[205px] h-[12px] xs:min-w-[200px] xs:h-[10px] bg-[#D9DADB] animate '></div>
               <div className='mt-3 w-[195px] h-[12px] xs:min-w-[200px] xs:h-[10px] bg-[#D9DADB] animate '></div>

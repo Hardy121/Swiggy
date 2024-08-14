@@ -37,7 +37,7 @@ const Search = () => {
     }
 
     async function fetchfood() {
-        let data = await fetch(`https://cors-by-codethread-for-swiggy.vercel.app/cors/dapi/restaurants/search/v3?lat=${lat}&lng=${lng}&str=${searcQuery}&trackingId=undefined&submitAction=ENTER&queryUniqueId=abce1bbd-a947-b031-e331-a8001a925e5e`)
+        let data = await fetch(`${import.meta.env.VITE_BASE_URL}/restaurants/search/v3?lat=${lat}&lng=${lng}&str=${searcQuery}&trackingId=undefined&submitAction=ENTER&queryUniqueId=abce1bbd-a947-b031-e331-a8001a925e5e`)
         let res = await data.json()
         let finalData = (res?.data?.cards[1]?.groupedCard?.cardGroupMap?.DISH?.cards).filter(data => data?.card?.card?.info)
         setdishes(finalData)
@@ -46,7 +46,7 @@ const Search = () => {
     }
 
     async function fetchrestaurant() {
-        let data = await fetch(`https://cors-by-codethread-for-swiggy.vercel.app/cors/dapi/restaurants/search/v3?lat=${lat}&lng=${lng}&str=${searcQuery}&trackingId=undefined&submitAction=ENTER&queryUniqueId=abce1bbd-a947-b031-e331-a8001a925e5e&selectedPLTab=RESTAURANT`)
+        let data = await fetch(`${import.meta.env.VITE_BASE_URL}/restaurants/search/v3?lat=${lat}&lng=${lng}&str=${searcQuery}&trackingId=undefined&submitAction=ENTER&queryUniqueId=abce1bbd-a947-b031-e331-a8001a925e5e&selectedPLTab=RESTAURANT`)
         let res = await data.json()
         let finalData = (
             (res?.data?.cards[0]?.groupedCard?.cardGroupMap?.RESTAURANT?.cards).filter(data => data?.card?.card?.info)
@@ -72,7 +72,7 @@ const Search = () => {
         let encodedpath = encodeURIComponent(pathName)
         console.log(encodedpath)
 
-        let data = await fetch(`https://cors-by-codethread-for-swiggy.vercel.app/cors/dapi/restaurants/search/v3?lat=${lat}&lng=${lng}&str=${searcQuery}&trackingId=undefined&submitAction=ENTER&selectedPLTab=dish-add&restaurantMenuUrl=${encodedpath}-rest${resId}%3Fquery%3D${searcQuery}&restaurantIdOfAddedItem=${resId}&itemAdded=${itemId}`)
+        let data = await fetch(`${import.meta.env.VITE_BASE_URL}/restaurants/search/v3?lat=${lat}&lng=${lng}&str=${searcQuery}&trackingId=undefined&submitAction=ENTER&selectedPLTab=dish-add&restaurantMenuUrl=${encodedpath}-rest${resId}%3Fquery%3D${searcQuery}&restaurantIdOfAddedItem=${resId}&itemAdded=${itemId}`)
         let res = await data.json()
 
         // console.log(res?.data?.cards[1])
@@ -153,16 +153,16 @@ const Search = () => {
                                         <p className='p-4 text-md font-semibold'>More dishes from this restaurant</p> </div><br />
 
                                     {
-                                        similarResDishes.map((data) => <Dishes data={{ ...data.card, restaurant: selectedResDish.card.card.restaurant }} />)
+                                        similarResDishes.map((data,index) => <Dishes key={index} data={{ ...data.card, restaurant: selectedResDish.card.card.restaurant }} />)
                                     }
                                 </>
                                 :
                                 activebtn === "Dishes" ?
-                                    dishes.map((data) => <Dishes data={data.card.card} />)
+                                    dishes.map((data , index) => <Dishes key={index} data={data.card.card} />)
                                     :
-                                    restaurantData.map((data) =>
+                                    restaurantData.map((data,index) =>
                                         data?.card?.card?.info?.promoted ?
-                                            <PromotedRes data={data} /> : <Restaurant data={data} />)
+                                            <PromotedRes key={index} data={data}  /> : <Restaurant key={index} data={data} />)
                         }
                     </div>
                 </div>

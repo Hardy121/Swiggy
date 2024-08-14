@@ -7,6 +7,7 @@ import { RiArrowLeftSLine } from "react-icons/ri";
 import { RiSearch2Line } from "react-icons/ri";
 import { useDispatch, useSelector } from 'react-redux'
 import { resetSimilarResDish, toggleIsSimilarDishes } from '../utils/toogleSlice'
+import { withHoc } from './Restaurant'
 
 
 const Search = () => {
@@ -16,10 +17,10 @@ const Search = () => {
     const [restaurantData, setrestaurantData] = useState([])
     const [selectedResDish, setSelectedResDish] = useState(null)
     const [similarResDishes, setSimilarResDishes] = useState([])
-
-
     const { coord: { lat, lng } } = useContext(Coordinate)
 
+
+    const PromotedRes = withHoc(Restaurant);
 
     const filteroption = [
         {
@@ -55,7 +56,7 @@ const Search = () => {
 
 
     const { isSimilarResDishes, city, resLocation, resId, itemId } = useSelector((state) => state.toogleSlice.similarResDish)
-    console.log({isSimilarResDishes, city, resLocation, resId, itemId})
+    // console.log({ isSimilarResDishes, city, resLocation, resId, itemId })
     const dispatch = useDispatch()
 
     useEffect(() => {
@@ -159,7 +160,9 @@ const Search = () => {
                                 activebtn === "Dishes" ?
                                     dishes.map((data) => <Dishes data={data.card.card} />)
                                     :
-                                    restaurantData.map((data) => <Restaurant data={data} />)
+                                    restaurantData.map((data) =>
+                                        data?.card?.card?.info?.promoted ?
+                                            <PromotedRes data={data} /> : <Restaurant data={data} />)
                         }
                     </div>
                 </div>
@@ -168,4 +171,5 @@ const Search = () => {
     )
 }
 
-export default Search   
+export default Search
+

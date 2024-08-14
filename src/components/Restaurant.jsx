@@ -13,7 +13,7 @@ const Restaurant = ({
                     name,
                     cloudinaryImageId,
                     costForTwoMessage,
-                    promote = false,
+                    promoted = false,
                     cuisines,
                 }
             },
@@ -30,8 +30,8 @@ const Restaurant = ({
                     <Link to={`/restaurant-menu/${id}`}>
                         <p className='text-base font-bold line-clamp-1 text-[#3e4152]'>{name}</p>
                     </Link>
-                        <p className='flex items-center text-[13px] text-[#696b79] font-semibold    '><IoIosStar className='text-green-800 text-sm' /> {avgRating} {slaString} {costForTwoMessage} </p>
-                        <p className='line-clamp-1 text-sm text-[#93959f]'>{cuisines.join()}</p>
+                    <p className='flex items-center text-[13px] text-[#696b79] font-semibold    '><IoIosStar className='text-green-800 text-sm' /> {avgRating} {slaString} {costForTwoMessage} </p>
+                    <p className='line-clamp-1 text-sm text-[#93959f]'>{cuisines.join()}</p>
                 </div>
             </div>
         </>
@@ -39,3 +39,13 @@ const Restaurant = ({
 }
 
 export default Restaurant
+
+export function withHoc(WrappedCom) {
+    return (prop)   => {
+            return <div className='relative'>
+                <p className='absolute top-7  px-2 left-5 bg-slate-600 rounded-md text-sm text-white'>Ad</p>
+                <WrappedCom {...prop}/>
+            </div>
+            
+    }
+}

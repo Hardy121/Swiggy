@@ -36,7 +36,7 @@ function useRestaurantData() {
         let data2 = result?.data.cards.find((data) => data?.card?.card?.id == "whats_on_your_mind"
         )?.card?.card?.imageGridCards?.info
         setOnYourMindData(data2)
-        console.log(data2)
+        // console.log(data2)
         // console.log(result)
         // console.log(data2 , mainData)
 

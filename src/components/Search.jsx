@@ -70,7 +70,7 @@ const Search = () => {
 
         let pathName = `/city${city}/${resLocation}`
         let encodedpath = encodeURIComponent(pathName)
-        console.log(encodedpath)
+        // console.log(encodedpath)
 
         let data = await fetch(`https://cors-by-codethread-for-swiggy.vercel.app/cors/dapi/restaurants/search/v3?lat=${lat}&lng=${lng}&str=${searcQuery}&trackingId=undefined&submitAction=ENTER&selectedPLTab=dish-add&restaurantMenuUrl=${encodedpath}-rest${resId}%3Fquery%3D${searcQuery}&restaurantIdOfAddedItem=${resId}&itemAdded=${itemId}`)
         let res = await data.json()
@@ -113,7 +113,7 @@ const Search = () => {
                 <div className=' '>
                     <div className='md:px-10 w-full relative'>
 
-                        <RiArrowLeftSLine className='absolute top-1/2 text-xl left-2 cursor-pointer  -translate-y-1/2' />
+                       
 
                         <input
                             onKeyDown={handleSearchQuery}
@@ -122,7 +122,7 @@ const Search = () => {
                             type="text"
                             placeholder='Search for restaurant and food' />
 
-                        <RiSearch2Line className='cursor-pointer absolute right-5 top-1/2 -translate-y-1/2  text-xl m' />
+                        {/* <RiSearch2Line className='cursor-pointer absolute right-5 top-1/2 -translate-y-1/2  text-xl m' /> */}
 
                     </div>
 

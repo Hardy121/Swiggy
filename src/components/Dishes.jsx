@@ -47,6 +47,8 @@ const Dishes = ({
         <>
 
             <div className='bg-white rounded-2xl p-4 m-4'>
+                {
+
                 <div>
                     {
                         !hideRestaurantDetails &&
@@ -82,12 +84,13 @@ const Dishes = ({
                         <div className='w-[40%] relative  h-full'>
                             <img className='rounded-xl object-cover aspect-square' src={"https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_300,h_300,c_fit/" + imageId} alt={name} />
                             <div onClick={handleSameRestaurant}>
-                                <ATCbtn info={info} resInfo={resInfo} />
+                                <ATCbtn info={info} resInfo={resInfo}  />
                             </div>
                         </div>
                     </div>
 
                 </div>
+                }
             </div >
 
         </>

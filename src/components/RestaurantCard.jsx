@@ -2,16 +2,17 @@ import React from 'react';
 import { MdStars } from "react-icons/md";
 import { Link } from 'react-router-dom';
 
-const RestaurantCard = (info) => {
+const RestaurantCard = (info, link) => {
+   
     return (
-        <Link to={`/restaurant-menu/${info.link.split('/')[4]}`}>
+        <Link to={`/search`}>
             <div className='min-w-[295px] h-[182px] xs:min-w-[200px] xs:h-[150px] cursor-pointer duration-1000 relative overflow-hidden rounded-xl '>
                 <div>
-                    <img 
-                        className='w-full h-full object-cover rounded-xl ' 
-                        src={`https://media-assets.swiggy.com/swiggy/image/upload/${info?.cloudinaryImageId}`} 
-                        alt="" 
-                        loading="lazy" 
+                    <img
+                        className='w-full h-full object-cover rounded-xl '
+                        src={`https://media-assets.swiggy.com/swiggy/image/upload/${info?.cloudinaryImageId}`}
+                        alt=""
+                        loading="lazy"
                     />
                     <div className="absolute rounded-xl bg-gradient-to-t from-black from-1% to-transparent to-40% w-full h-full top-0">   </div>
                     <p className='absolute bottom-1 text-[#FFFFFF] text-xl ml-2 font-semibold tracking-tight' >

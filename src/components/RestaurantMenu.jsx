@@ -15,7 +15,7 @@ import Footer from './Footer'
 const RestaurantMenu = ({ data = [] }) => {
 
 
-  const { id } = useParams()
+  const {id} = useParams()
   let mainId = (id.split('-').at(-1))
 
 

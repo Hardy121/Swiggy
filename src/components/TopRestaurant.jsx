@@ -16,6 +16,8 @@ const TopRestaurant = ({ data  , TopResTitle}) => {
     //     fetchData()
     // }, [])
 
+   
+
 
 
     function handleNext() {
@@ -24,6 +26,8 @@ const TopRestaurant = ({ data  , TopResTitle}) => {
     function handlePrev() {
         value <= 0 ? "" : setvalue((prev) => prev - 40)
     }
+
+   
     return (
         <>
 
@@ -41,7 +45,7 @@ const TopRestaurant = ({ data  , TopResTitle}) => {
             <div className={`mt-4 flex gap-5 duration-1000`} style={{ translate: `-${value}%` }}>
                 {
                     data.map(({  info , index , cta:{link}}) => (
-                    
+                                  
                         <div key={index} className='hover:scale-95 duration-300'>
                            <RestaurantCard {...info}  link={link}/>
                         </div>
@@ -49,6 +53,12 @@ const TopRestaurant = ({ data  , TopResTitle}) => {
                 }
             </div>
             <hr className='mt-5 mb-3' />
+
+            {
+                    data.map(({  info , index , cta:{link}}) => (
+                       console.log(link)
+                    ))
+                }
         </>
     )
 }

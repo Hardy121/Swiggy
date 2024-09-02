@@ -32,7 +32,7 @@ function useRestaurantData() {
         // console.log(mainData, mainData2)
 
         setTopRestaurantData(mainData || mainData2)
-        console.log(result?.data.cards)
+        // console.log(result?.data.cards)
 
         let data2 = result?.data.cards.find((data) => data?.card?.card?.id == "whats_on_your_mind"
         )?.card?.card?.imageGridCards?.info
